@@ -20,8 +20,7 @@ credentials_data = {
 fake_user_agent = fake_useragent.FakeUserAgent()
 
 # mongo_uri = pymongo.MongoClient("mongodb://localhost:27017/")
-mongo_uri = pymongo.MongoClient("mongodb://user:pass@mongodb.catax.me/")
-db = mongo_uri.MasterCC
+db = cc_master.mongo_uri.MasterCC
 
 
 def GetPairOHLCV(exchange: str, fsym: str, tsym: str, limit: int):

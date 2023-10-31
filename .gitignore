@@ -4,3 +4,8 @@ venv
 *.out
 *.txt
 __pycache__
+test.py
+
+!requirements.txt
+!pairs-list.json
+!pairs_list.json
