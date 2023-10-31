@@ -1,0 +1,6 @@
+*.json
+venv
+.vscode
+*.out
+*.txt
+__pycache__

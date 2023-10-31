@@ -1,0 +1,23 @@
+version: '3.1'
+
+services:
+
+  mongo:
+    image: mongo
+    restart: always
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: user
+      MONGO_INITDB_ROOT_PASSWORD: pass
+    volumes:
+      - mongodb-data:/data/db  # Create a named volume for persistent data storage
+    networks:
+      - net
+
+volumes:
+  mongodb-data:  # Define the named volume for MongoDB data storage
+
+networks:
+  net:
+    driver: bridge
