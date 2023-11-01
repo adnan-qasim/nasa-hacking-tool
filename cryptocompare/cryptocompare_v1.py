@@ -25,7 +25,7 @@ db = cc_master.mongo_uri.MasterCC
 
 def GetPairOHLCV(exchange: str, fsym: str, tsym: str, limit: int):
     """ """
-    collection = db[f"{exchange}"]
+    collection = db[f"Below_100"]
     headers = {"User-Agent": fake_user_agent.chrome}
     url = f"https://min-api.cryptocompare.com/data/v2/histohour?fsym={fsym}&tsym={tsym}&limit={limit}&e={exchange}"
     response = requests.get(url, headers=headers).json()
@@ -36,6 +36,7 @@ def GetPairOHLCV(exchange: str, fsym: str, tsym: str, limit: int):
                     "time": datetime.datetime.fromtimestamp(ohlcv["time"]).strftime(
                         "%Y-%m-%d %H:%M:%S"
                     ),
+                    "exchange":exchange,
                     "parent_sym": fsym,
                     "child_sym": tsym,
                 }
@@ -43,6 +44,7 @@ def GetPairOHLCV(exchange: str, fsym: str, tsym: str, limit: int):
             if (
                 collection.find_one(
                     {
+                        "exchange":exchange,
                         "time": ohlcv["time"],
                         "parent_sym": fsym,
                         "child_sym": tsym,
@@ -147,7 +149,7 @@ def loop_all_exchanges():
     with open("./cryptocompare/exchanges_summed.json", "r") as file:
         temp = json.load(file)
     for t in temp:
-        if 0< t['Cumulative sum of Count'] <= 100:
+        if 0 < t['Cumulative sum of Count'] <= 100:
             exchanges_list.append(t['Exchange'])
     print(exchanges_list)
     with open("./cryptocompare/pairs-list.json", "r") as file:
