@@ -143,60 +143,13 @@ def CallAllPairs(exchange_id: str):
 
 
 def loop_all_exchanges():
-    exchanges_list = [
-        "BitSquare",
-        "BitTrex",
-        "Bitfinex",
-        "Bitforex",
-        "Bithumb",
-        "Bitmex",
-        "Bitso",
-        "Bitstamp",
-        "CoinEx",
-        "CoinJar",
-        "Coinbase",
-        "Coinsbit",
-        "Gateio",
-        "Gemini",
-        "HitBTC",
-        "HuobiPro",
-        "Korbit",
-        "Kraken",
-        "Kucoin",
-        "LAToken",
-        "LBank",
-        "Luno",
-        "MercadoBitcoin",
-        "OKCoin",
-        "OKEX",
-        "Poloniex",
-        "Upbit",
-        "Yobit",
-        "binanceusa",
-        "bitFlyer",
-        "bitFlyerFX",
-        "bitpanda",
-        "blockchaincom",
-        "btse",
-        "bybit",
-        "coinspro",
-        "coinzix",
-        "crosstower",
-        "cryptodotcom",
-        "curve",
-        "dcoin",
-        "erisx",
-        "gopax",
-        "huobijapan",
-        "itBit",
-        "lmax",
-        "mercatox",
-        "mexc",
-        "probit",
-        "uniswapv2",
-        "Binance",
-        "BitMart",
-    ]
+    exchanges_list = []
+    with open("./cryptocompare/exchanges_summed.json", "r") as file:
+        temp = json.load(file)
+    for t in temp:
+        if 0< t['Cumulative sum of Count'] <= 100:
+            exchanges_list.append(t['Exchange'])
+    print(exchanges_list)
     with open("./cryptocompare/pairs-list.json", "r") as file:
         exchange_json = json.load(file)
     for exchange in exchange_json:
