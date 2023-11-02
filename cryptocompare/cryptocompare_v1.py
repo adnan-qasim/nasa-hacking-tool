@@ -25,7 +25,7 @@ db = cc_master.mongo_uri.MasterCC
 
 def GetPairOHLCV(exchange: str, fsym: str, tsym: str, limit: int):
     """ """
-    collection = db[f"Below_100"]
+    collection = db[f"500 - 700"]
     headers = {"User-Agent": fake_user_agent.chrome}
     url = f"https://min-api.cryptocompare.com/data/v2/histohour?fsym={fsym}&tsym={tsym}&limit={limit}&e={exchange}"
     response = requests.get(url, headers=headers).json()
@@ -149,7 +149,7 @@ def loop_all_exchanges():
     with open("./cryptocompare/exchanges_summed.json", "r") as file:
         temp = json.load(file)
     for t in temp:
-        if 0 < t['Cumulative sum of Count'] <= 100:
+        if 500 < t['Cumulative sum of Count'] <= 700:
             exchanges_list.append(t['Exchange'])
     print(exchanges_list)
     with open("./cryptocompare/pairs-list.json", "r") as file:
@@ -200,6 +200,20 @@ def loop_all_exchanges():
 
             # Pause execution for 5 seconds before retrying the task
             time.sleep(5)
+    mail_data = credentials_data
+    mail_data["subject"] = "Badhai Ho!! Bhiali ka crawler khatam.."
+    mail_data[
+        "body"
+    ] = f"""
+            Server Name: Bhilai Linode
+            Server IP:
+            Exchanges Completed: {exchanges_list}
+            Completed at: {time.strftime('%Y-%m-%d %H:%M:%S')}
+            
+            Padh liya... ab jaake usko aaghe ka kaam de 😂
+        """
+
+    mailResponse = requests.post(mailurl, json=mail_data)
 
 
 def schedule_task(target_func, interval_minutes, *arg):
