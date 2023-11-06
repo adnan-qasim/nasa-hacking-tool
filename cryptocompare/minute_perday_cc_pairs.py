@@ -157,6 +157,7 @@ def GetAllExchanges(pair: str):
                 "time": time.strftime("%Y-%m-%d %H:%M:%S"),
             }
             db.PairErrors.insert_one(error_info)
+        finally:
             time.sleep(57)
 
     update = {
