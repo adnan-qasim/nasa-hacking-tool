@@ -70,16 +70,15 @@ def CallAllPairs(exchange_id: str):
         exchange = pair_doc["exchange"]
         fsym = pair_doc["parent_sym"]
         tsym = pair_doc["child_sym"]
-        # if len(pair_doc["hourly_crawled_at"]) > 0:
-        #     time_difference = datetime.datetime.now() - datetime.datetime.strptime(
-        #         pair_doc["hourly_crawled_at"][-1], "%Y-%m-%d %H:%M:%S"
-        #     )
-        #     if time_difference.total_seconds() < 30 * 24 * 3600:  # 30 days in seconds
-        #         print(
-        #             f"{exchange}'s {pair_doc['pair_sym']} was just crawled {int(time_difference.total_seconds() / (24 * 3600))} days ago"
-        #         )
-        #         return None
-
+        if len(pair_doc["hourly_crawled_at"]) > 0:
+            time_difference = datetime.datetime.now() - datetime.datetime.strptime(
+                pair_doc["hourly_crawled_at"][-1], "%Y-%m-%d %H:%M:%S"
+            )
+            if time_difference.total_seconds() < 30 * 24 * 3600:  # 30 days in seconds
+                print(
+                    f"{exchange}'s {pair_doc['pair_sym']} was just crawled {int(time_difference.total_seconds() / (24 * 3600))} days ago"
+                )
+                return None
         print("working")
         toTs = (
             pair_doc.get("hourly_from_ts")
@@ -145,7 +144,6 @@ def CallAllPairs(exchange_id: str):
                 "hourly_from_timestamp": oldest_timestamp.strftime("%Y-%m-%d %H:%M:%S"),
                 "hourly_to_ts": latest_timestamp.timestamp(),
                 "hourly_from_ts": oldest_timestamp.timestamp(),
-                # "hourly_crawled_at": pair_doc["hourly_crawled_at"],
                 "hourly_entry_count": pair_doc["hourly_entry_count"] + crawled[2],
             }
             db.master.find_one_and_update({"_id": pair_doc["_id"]}, {"$set": update})
@@ -164,9 +162,6 @@ def CallAllPairs(exchange_id: str):
             }
         },
     )
-
-    # break
-    # time.sleep(15)
 
 
 def loop_all_exchanges():
@@ -235,23 +230,7 @@ def loop_all_exchanges():
     mailResponse = requests.post(mailurl, json=mail_data)
 
 
-def schedule_task(target_func, interval_minutes, *arg):
-    """This function schedules and repeatedly runs a target function at a specified interval.
-
-    Args:
-        target_func: The function that you want to run at regular intervals.
-        interval_minutes: The time interval, in minutes, at which the function should run.
-        *arg: Any additional arguments that the target function may require.
-    """
-    while True:
-        # Call the target function with any provided arguments (*arg)
-        target_func(*arg)
-
-        # Pause execution for a specified number of minutes
-        time.sleep(interval_minutes * 60)
-
-
-tCS = threading.Thread(target=schedule_task, args=(loop_all_exchanges, 4320))  # 3 days
+tCS = threading.Thread(target=loop_all_exchanges)
 
 
 # cc_master.add_master_data()
