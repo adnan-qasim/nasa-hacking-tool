@@ -61,9 +61,6 @@ def GetPairOHLCV(
         raise Exception(response)
 
 
-# print(GetPairOHLCV("Kraken", "ETH", "BTC", limit=9))
-
-
 def CallAllPairs(exchange_id: str):
     """ """
     while True:
@@ -172,11 +169,8 @@ def CallAllPairs(exchange_id: str):
     # time.sleep(15)
 
 
-# CallAllPairs("65489de57b571691c0996387")  # kraken eth_usdc
-
-
 def loop_all_exchanges():
-    exchanges_list = ["bitpanda"]
+    exchanges_list = ["Binance"]
     with open("./cryptocompare/pairs-list.json", "r") as file:
         exchange_json = json.load(file)
     for exchange in exchange_json:
@@ -225,6 +219,20 @@ def loop_all_exchanges():
 
             # Pause execution for 5 seconds before retrying the task
             time.sleep(5)
+    mail_data = credentials_data
+    mail_data["subject"] = "Badhai Ho!! Apple ka crawler khatam.."
+    mail_data[
+        "body"
+    ] = f"""
+            Server Name: Apple Linode
+            Server IP:
+            Exchanges Completed: {exchanges_list}
+            Completed at: {time.strftime('%Y-%m-%d %H:%M:%S')}
+            
+            Padh liya... ab jaake usko aaghe ka kaam de 😂
+        """
+
+    mailResponse = requests.post(mailurl, json=mail_data)
 
 
 def schedule_task(target_func, interval_minutes, *arg):
@@ -248,7 +256,3 @@ tCS = threading.Thread(target=schedule_task, args=(loop_all_exchanges, 4320))  #
 
 # cc_master.add_master_data()
 tCS.start()
-
-
-# all_exchanges = db.master.distinct("exchange")
-# print(all_exchanges)
