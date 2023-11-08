@@ -45,46 +45,17 @@ def GetPairOHLCV(
                 }
             )
             new.append(ohlcv)
-            # if (
-            #     collection.find_one(
-            #         {
-            #             "time": ohlcv["time"],
-            #             "parent_sym": fsym,
-            #             "child_sym": tsym,
-            #         }
-            #     )
-            #     == None
-            # ):
-            #     collection.insert_one(ohlcv)
-        old = list(
-            collection.find(
-                {
-                    "parent_sym": fsym,
-                    "child_sym": tsym,
-                },
-                projection={"_id": False},
-            )
-            .sort([("time", pymongo.DESCENDING)])
-            .limit(2002)
-        )
-        writable = []
-        for i in range(len(new)):
-            if new[i] not in old:
-                writable.append(new[i])
-        if len(writable) == 0:
-            print(0)
-            return None
         try:
-            collection.insert_many(writable)
+            collection.insert_many(new)
         except Exception as e:
             raise Exception(
-                f"There was an error inserting many documents into db \n error:{e}"
+                f"There was an error inserting many documents into db of {fsym}_{tsym} \n error:{e}"
             )
-        print(f"{len(writable)} ohlcv of {exchange}'s {fsym}_{tsym} crawled")
+        print(f"{len(new)} ohlcv of {exchange}'s {fsym}_{tsym} crawled")
         return [
             response["Data"]["TimeTo"],
             response["Data"]["TimeFrom"],
-            len(writable),
+            len(new),
         ]
     else:
         raise Exception(response)
@@ -272,11 +243,11 @@ def schedule_task(target_func, interval_minutes, *arg):
         time.sleep(interval_minutes * 60)
 
 
-# tCS = threading.Thread(target=schedule_task, args=(loop_all_exchanges, 4320))  # 3 days
+tCS = threading.Thread(target=schedule_task, args=(loop_all_exchanges, 4320))  # 3 days
 
 
 # cc_master.add_master_data()
-# tCS.start()
+tCS.start()
 
 
 # all_exchanges = db.master.distinct("exchange")

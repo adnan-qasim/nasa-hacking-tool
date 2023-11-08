@@ -5,7 +5,7 @@ import pymongo, time, threading, os
 fake_user_agent = fake_useragent.FakeUserAgent()
 
 # mongo_uri = pymongo.MongoClient("mongodb://localhost:27017/")
-mongo_uri = pymongo.MongoClient("mongodb://user:pass@mongodb.catax.me/")
+mongo_uri = pymongo.MongoClient("mongodb://user:pass@chongodb.catax.me/")
 db = mongo_uri.MasterCC
 
 
