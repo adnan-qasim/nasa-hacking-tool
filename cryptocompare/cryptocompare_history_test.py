@@ -51,12 +51,37 @@ def GetPairOHLCV(
             raise Exception(
                 f"There was an error inserting many documents into db of {fsym}_{tsym} \n error:{e}"
             )
-        print(f"{len(new)} ohlcv of {exchange}'s {fsym}_{tsym} crawled")
         return [
             response["Data"]["TimeTo"],
             response["Data"]["TimeFrom"],
             len(new),
         ]
+
+    elif (
+        response["Message"]
+        == "You are over your rate limit please upgrade your account!"
+    ):
+        calls_made = response["RateLimit"]["calls_made"]
+        for t, v in response["RateLimit"]["max_calls"].items():
+            if calls_made[t] > v:
+                if t == "minute":
+                    time.sleep(60)
+                elif t == "hour":
+                    time.sleep((65 - datetime.datetime.now().minute) * 60)
+                elif t == "day":
+                    time.sleep(
+                        (
+                            datetime.datetime.combine(
+                                datetime.date.today() + datetime.timedelta(days=1),
+                                datetime.time(0, 5, 0),
+                            )
+                            - datetime.datetime.now()
+                        ).total_seconds()
+                    )
+                elif t == "month":
+                    raise Exception(response)
+                GetPairOHLCV(exchange, fsym, tsym, limit, timestamp)
+
     else:
         raise Exception(response)
 
@@ -75,11 +100,7 @@ def CallAllPairs(exchange_id: str):
                 pair_doc["hourly_crawled_at"][-1], "%Y-%m-%d %H:%M:%S"
             )
             if time_difference.total_seconds() < 30 * 24 * 3600:  # 30 days in seconds
-                print(
-                    f"{exchange}'s {pair_doc['pair_sym']} was just crawled {int(time_difference.total_seconds() / (24 * 3600))} days ago"
-                )
                 return None
-        print("working")
         toTs = (
             pair_doc.get("hourly_from_ts")
             if pair_doc.get("hourly_from_ts", False)
@@ -148,9 +169,7 @@ def CallAllPairs(exchange_id: str):
             }
             db.master.find_one_and_update({"_id": pair_doc["_id"]}, {"$set": update})
             if pair_doc["histo_minute_start_ts"] > update["hourly_from_ts"]:
-                print("wwoooooooooooooohoooooooooooo bitch")
                 break
-            print("sleeping")
             time.sleep(10)
     db.master.update_one(
         {"_id": pair_doc["_id"]},
@@ -171,7 +190,6 @@ def loop_all_exchanges():
     for exchange in exchange_json:
         try:
             if exchange["exchange"] in exchanges_list:
-                print(f"Crawling {exchange['pair_sym']} of {exchange['exchange']} ")
                 CallAllPairs(exchange["_id"])
         except Exception:
             # If an error occurs during the execution of the target function, do the following:
