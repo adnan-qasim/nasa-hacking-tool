@@ -80,7 +80,7 @@ def GetPairOHLCV(
                     )
                 elif t == "month":
                     raise Exception(response)
-                GetPairOHLCV(exchange, fsym, tsym, limit, timestamp)
+        return GetPairOHLCV(exchange, fsym, tsym, limit, timestamp)
 
     else:
         raise Exception(response)
