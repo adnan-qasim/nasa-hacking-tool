@@ -3,6 +3,7 @@ venv
 .vscode
 *.out
 *.txt
+*.csv
 __pycache__
 test.py
 
