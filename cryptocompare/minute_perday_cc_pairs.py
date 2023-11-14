@@ -79,7 +79,6 @@ def GetAllExchanges(pair: str):
             result = GetPairOHLCV(exchange, pair)
             if result == "Error":
                 continue
-                # Will what to do here
             total_crawled += result[2]
             default_timestamp = datetime.datetime.fromtimestamp(result[0]).strftime(
                 "%Y-%m-%d %H:%M:%S"
@@ -195,13 +194,14 @@ def schedule_functions():
     t2 = threading.Thread(target=even_pairs)
 
     # Schedule the job for odd pairs to run every day at 9 am morning.
-    schedule.every().day.at("09:00").do(t1.start)
+    schedule.every().day.at("09:00:00").do(t1.start)
 
     # Schedule the job for even pairs to run every day at 9 am morning.
-    schedule.every().day.at("09:00").do(t2.start)
+    schedule.every().day.at("09:00:30").do(t2.start)
 
     # Start the threads immediately
     t1.start()
+    time.sleep(30)
     t2.start()
 
 
