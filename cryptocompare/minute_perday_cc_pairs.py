@@ -217,13 +217,23 @@ def GetAllExchanges(pair: str):
 
 
 def odd_pairs():
-    """ """
+    """
+    This function processes odd indexed cryptocurrency pairs from a JSON file,
+    checks if their count is above a threshold, fetches data for eligible pairs,
+    and then sends an email notification about the completion of the task.
+    """
+    # Opening the JSON file to read the list of pairs
     with open("./cryptocompare/pairs_list.json") as f:
         pair_list = json.load(f)
-    # pair_list = ["ETH_BTC","ETH_USDT"]
+
+    # Iterate over odd indexed pairs from the first 22 pairs in the list
     for pair in pair_list[0:22:2]:
+        # Check if the 'count' of the pair is 40 or more
         if pair["count"] >= 40:
+            # If yes, then get all exchanges for this pair
             GetAllExchanges(pair["pair_sym"])
+
+    # Prepare the email data using the credentials_data variable
     mail_data = credentials_data
     mail_data[
         "subject"
@@ -231,27 +241,40 @@ def odd_pairs():
     mail_data[
         "body"
     ] = f""" 
-            Name: Minutely Odd Index
-            Server IP: 
-            Exchanges Completed: {pair_list[0:22:2]}
-            Completed at: {time.strftime('%Y-%m-%d %H:%M:%S')}
-            
-            Padh liya... ab jaake usko aaghe ka kaam de 😂
-        """
+        Name: Minutely Odd Index
+        Server IP: 
+        Exchanges Completed: {pair_list[0:22:2]}
+        Completed at: {time.strftime('%Y-%m-%d %H:%M:%S')}
+        
+        Padh liya... ab jaake usko aaghe ka kaam de 😂
+    """
 
+    # Send the email using a POST request to the mailurl
     mailResponse = requests.post(mailurl, json=mail_data)
+    # Update the recipient email
     mail_data["destination_email"] = "shiekh111aq@gmail.com"
+    # Send the email again to the updated recipient
     mailResponse = requests.post(mailurl, json=mail_data)
 
 
 def even_pairs():
-    """ """
+    """
+    This function processes even indexed cryptocurrency pairs from a JSON file,
+    checks if their count is above a threshold, fetches data for eligible pairs,
+    and then sends an email notification about the completion of the task.
+    """
+    # Opening the JSON file to read the list of pairs
     with open("./cryptocompare/pairs_list.json") as f:
         pair_list = json.load(f)
-    # pair_list = ["BTC_USDT","LTC_BTC"]
+
+    # Iterate over even indexed pairs from the first 23 pairs in the list
     for pair in pair_list[1:23:2]:
+        # Check if the 'count' of the pair is 40 or more
         if pair["count"] >= 40:
+            # If yes, then get all exchanges for this pair
             GetAllExchanges(pair["pair_sym"])
+
+    # Prepare the email data using the credentials_data variable
     mail_data = credentials_data
     mail_data[
         "subject"
@@ -259,16 +282,19 @@ def even_pairs():
     mail_data[
         "body"
     ] = f"""
-            Name: Minutely Even Index 
-            Server IP: 
-            Exchanges Completed: {pair_list[1:23:2]}
-            Completed at: {time.strftime('%Y-%m-%d %H:%M:%S')}
-            
-            Padh liya... ab jaake usko aaghe ka kaam de 😂
-        """
+        Name: Minutely Even Index 
+        Server IP: 
+        Exchanges Completed: {pair_list[1:23:2]}
+        Completed at: {time.strftime('%Y-%m-%d %H:%M:%S')}
+        
+        Padh liya... ab jaake usko aaghe ka kaam de 😂
+    """
 
+    # Send the email using a POST request to the mailurl
     mailResponse = requests.post(mailurl, json=mail_data)
+    # Update the recipient email
     mail_data["destination_email"] = "shiekh111aq@gmail.com"
+    # Send the email again to the updated recipient
     mailResponse = requests.post(mailurl, json=mail_data)
 
 
