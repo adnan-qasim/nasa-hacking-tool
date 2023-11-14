@@ -23,6 +23,7 @@ fake_user_agent = fake_useragent.FakeUserAgent()
 
 db = cc_pair_master.db
 
+
 def GetPairOHLCV(
     exchange: str, pair: str, timestamp: int = int(time.time()), limit: int = 1999
 ):
@@ -66,8 +67,33 @@ def GetPairOHLCV(
             response["Data"]["TimeFrom"],
             len(writable),
         ]
+    elif (
+        response["Message"]
+        == "You are over your rate limit please upgrade your account!"
+    ):
+        calls_made = response["RateLimit"]["calls_made"]
+        for t, v in response["RateLimit"]["max_calls"].items():
+            if calls_made[t] > v:
+                if t == "minute":
+                    time.sleep(60)
+                elif t == "hour":
+                    time.sleep((65 - datetime.datetime.now().minute) * 60)
+                elif t == "day":
+                    time.sleep(
+                        (
+                            datetime.datetime.combine(
+                                datetime.date.today() + datetime.timedelta(days=1),
+                                datetime.time(0, 5, 0),
+                            )
+                            - datetime.datetime.now()
+                        ).total_seconds()
+                    )
+                elif t == "month":
+                    raise Exception(response)
+        return GetPairOHLCV(exchange, fsym, tsym, limit, timestamp)
+
     else:
-        return response["Response"]
+        raise Exception(response)
 
 
 def GetAllExchanges(pair: str):
@@ -77,8 +103,6 @@ def GetAllExchanges(pair: str):
     for exchange in doc["exchanges"]:
         try:
             result = GetPairOHLCV(exchange, pair)
-            if result == "Error":
-                continue
             total_crawled += result[2]
             default_timestamp = datetime.datetime.fromtimestamp(result[0]).strftime(
                 "%Y-%m-%d %H:%M:%S"
@@ -143,18 +167,41 @@ def GetAllExchanges(pair: str):
                 return_document=ReturnDocument.AFTER,
             )
         except Exception:
-            db.master.update_one(
-                {"pair_sym": pair}, {"$pull": {"exchanges": exchange}}
-            )
+            db.master.update_one({"pair_sym": pair}, {"$pull": {"exchanges": exchange}})
             traceback_str = traceback.format_exc()
             error_info = {
-                "filename": f"Crypto Compare : {pair} -> {exchange}",
+                "filename": f"Crypto Compare Minutely : {pair} -> {exchange}",
                 "error": traceback_str,
                 "time": time.strftime("%Y-%m-%d %H:%M:%S"),
             }
             db.PairErrors.insert_one(error_info)
+
+            # Code to send Email about error
+            ErrorData = credentials_data
+            ErrorData["subject"] = "Error occurred in CryptoCompare's Crawler"
+
+            # Replace placeholders with actual values
+            ErrorData[
+                "body"
+            ] = f"""
+                    We encountered an error in the {error_info["filename"]} data crawler system. Please find the details below:
+
+                    - Filename: {error_info["filename"]}
+                    - Error Time: {error_info["time"]}
+
+                    Error Details:
+
+                    {error_info["error"]}
+                    
+                    Padh liya?... Ab Jaldi jaake dekh
+                """
+
+            mailResponse = requests.post(mailurl, json=ErrorData)
+            ErrorData["destination_email"] = "shiekh111aq@gmail.com"
+            mailResponse = requests.post(mailurl, json=ErrorData)
+
         finally:
-            time.sleep(57)
+            time.sleep(12)
 
     update = {
         "minutely_crawled_at": doc["minutely_crawled_at"],
@@ -177,6 +224,24 @@ def odd_pairs():
     for pair in pair_list[0:22:2]:
         if pair["count"] >= 40:
             GetAllExchanges(pair["pair_sym"])
+    mail_data = credentials_data
+    mail_data[
+        "subject"
+    ] = "Badhai Ho!! aaj ka minutely crawler ka odd index pairs khatam.."
+    mail_data[
+        "body"
+    ] = f""" 
+            Name: Minutely Odd Index
+            Server IP: 
+            Exchanges Completed: {pair_list[0:22:2]}
+            Completed at: {time.strftime('%Y-%m-%d %H:%M:%S')}
+            
+            Padh liya... ab jaake usko aaghe ka kaam de 😂
+        """
+
+    mailResponse = requests.post(mailurl, json=mail_data)
+    mail_data["destination_email"] = "shiekh111aq@gmail.com"
+    mailResponse = requests.post(mailurl, json=mail_data)
 
 
 def even_pairs():
@@ -187,6 +252,24 @@ def even_pairs():
     for pair in pair_list[1:23:2]:
         if pair["count"] >= 40:
             GetAllExchanges(pair["pair_sym"])
+    mail_data = credentials_data
+    mail_data[
+        "subject"
+    ] = "Badhai Ho!! aaj ka minutely crawler ka even index pairs khatam.."
+    mail_data[
+        "body"
+    ] = f"""
+            Name: Minutely Even Index 
+            Server IP: 
+            Exchanges Completed: {pair_list[1:23:2]}
+            Completed at: {time.strftime('%Y-%m-%d %H:%M:%S')}
+            
+            Padh liya... ab jaake usko aaghe ka kaam de 😂
+        """
+
+    mailResponse = requests.post(mailurl, json=mail_data)
+    mail_data["destination_email"] = "shiekh111aq@gmail.com"
+    mailResponse = requests.post(mailurl, json=mail_data)
 
 
 def schedule_functions():
