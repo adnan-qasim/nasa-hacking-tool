@@ -21,11 +21,7 @@ credentials_data = {
 
 fake_user_agent = fake_useragent.FakeUserAgent()
 
-mongo_uri = pymongo.MongoClient("mongodb://user:pass@localhost:27017/")
-# mongo_uri = pymongo.MongoClient("mongodb://localhost:27017/")
-dbm = mongo_uri.MasterCC
-db = mongo_uri.PairsCluster
-
+db = cc_pair_master.db
 
 def GetPairOHLCV(
     exchange: str, pair: str, timestamp: int = int(time.time()), limit: int = 1999
@@ -33,7 +29,6 @@ def GetPairOHLCV(
     """ """
     print(f"getting ohlcv of {pair} in {exchange}")
     collection = db[f"{pair}"]
-    db[f"{pair}"].create_index([("time", 1), ("exchange", 1)], unique=True)
     headers = {"User-Agent": fake_user_agent.chrome}
     fsym, tsym = pair.split("_")[0], pair.split("_")[1]
     url = f"https://min-api.cryptocompare.com/data/v2/histominute?fsym={fsym}&tsym={tsym}&limit={limit}&e={exchange}&toTs={timestamp-300}"
@@ -77,7 +72,7 @@ def GetPairOHLCV(
 
 def GetAllExchanges(pair: str):
     startTime = datetime.datetime.now()
-    doc = db.Master.find_one({"pair_sym": pair})
+    doc = db.master.find_one({"pair_sym": pair})
     total_crawled = doc["minutely_entry_count"]
     for exchange in doc["exchanges"]:
         try:
@@ -134,7 +129,7 @@ def GetAllExchanges(pair: str):
                 oldest_timestamp = datetime.datetime.strptime(
                     default_timestamp, "%Y-%m-%d %H:%M:%S"
                 )
-            doc = db.Master.find_one_and_update(
+            doc = db.master.find_one_and_update(
                 {"pair_sym": pair},
                 {
                     "$set": {
@@ -149,7 +144,9 @@ def GetAllExchanges(pair: str):
                 return_document=ReturnDocument.AFTER,
             )
         except Exception:
-            db.Master.update_one({"pair_sym": pair}, {"$pull": {"exchanges": exchange}})
+            db.master.update_one(
+                {"pair_sym": pair}, {"$pull": {"exchanges": exchange}}
+            )
             traceback_str = traceback.format_exc()
             error_info = {
                 "filename": f"Crypto Compare : {pair} -> {exchange}",
@@ -169,9 +166,8 @@ def GetAllExchanges(pair: str):
     update["minutely_crawled_at"].append(
         datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     )
-    db.Master.update_one({"_id": doc["_id"]}, {"$set": update})
+    db.master.update_one({"_id": doc["_id"]}, {"$set": update})
     print(f"{pair} Completed with time taken: {datetime.datetime.now()-startTime}")
-
 
 
 def odd_pairs():
@@ -180,8 +176,8 @@ def odd_pairs():
         pair_list = json.load(f)
     # pair_list = ["ETH_BTC","ETH_USDT"]
     for pair in pair_list[0:22:2]:
-        if pair['count'] >= 40:
-            GetAllExchanges(pair['pair_sym'])
+        if pair["count"] >= 40:
+            GetAllExchanges(pair["pair_sym"])
 
 
 def even_pairs():
@@ -190,8 +186,9 @@ def even_pairs():
         pair_list = json.load(f)
     # pair_list = ["BTC_USDT","LTC_BTC"]
     for pair in pair_list[1:23:2]:
-        if pair['count'] >= 40:
-            GetAllExchanges(pair['pair_sym'])
+        if pair["count"] >= 40:
+            GetAllExchanges(pair["pair_sym"])
+
 
 def schedule_functions():
     t1 = threading.Thread(target=odd_pairs)
@@ -203,7 +200,7 @@ def schedule_functions():
     # Schedule the job for even pairs to run every day at 9 am morning.
     schedule.every().day.at("09:00").do(t2.start)
 
-    # Start the threads immediately 
+    # Start the threads immediately
     t1.start()
     t2.start()
 
@@ -215,12 +212,11 @@ def run_schedule():
         time.sleep(10)
 
 
-
-
-
 #### MAIN CODE TO RUN ####
 
 # cc_pair_master.add_master_data()
 schedule_functions()
-cron_thread = threading.Thread(target=run_schedule)   # Start the thread to run the schedule
+cron_thread = threading.Thread(
+    target=run_schedule
+)  # Start the thread to run the schedule
 cron_thread.start()

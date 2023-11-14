@@ -20,8 +20,8 @@ credentials_data = {
 
 fake_user_agent = fake_useragent.FakeUserAgent()
 
-# mongo_uri = pymongo.MongoClient("mongodb://localhost:27017/")
-mongo_uri = pymongo.MongoClient("mongodb://user:pass@localhost:27017/")
+mongo_uri = pymongo.MongoClient("mongodb://localhost:27017/")
+# mongo_uri = pymongo.MongoClient("mongodb://user:pass@localhost:27017/")
 mongo_uri2 = pymongo.MongoClient("mongodb://user:pass@mongodb.catax.me/")
 dbm = mongo_uri2.MasterCC
 db = mongo_uri.PairsCluster
@@ -50,10 +50,10 @@ def add_master_data():
                 "daily_entry_count": 0,
             }
         )
-        db.Master.insert_one(pairs)
+        db.master.insert_one(pairs)
+
         print(f"Added exchanges of {pairs['pair_sym']} pair")
 
 
 if __name__ == "__main__":
     add_master_data()
-
