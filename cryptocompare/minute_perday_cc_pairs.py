@@ -299,19 +299,16 @@ def even_pairs():
 
 
 def schedule_functions():
-    t1 = threading.Thread(target=odd_pairs)
-    t2 = threading.Thread(target=even_pairs)
-
     # Schedule the job for odd pairs to run every day at 9 am morning.
-    schedule.every().day.at("09:00:00").do(t1.start)
+    schedule.every().day.at("09:00:00").do(threading.Thread(target=odd_pairs).start)
 
     # Schedule the job for even pairs to run every day at 9 am morning.
-    schedule.every().day.at("09:00:30").do(t2.start)
+    schedule.every().day.at("09:00:30").do(threading.Thread(target=even_pairs).start)
 
     # Start the threads immediately
-    t1.start()
+    threading.Thread(target=odd_pairs).start()
     time.sleep(30)
-    t2.start()
+    threading.Thread(target=even_pairs).start()
 
 
 # Start a new thread to run the schedule
@@ -329,3 +326,6 @@ cron_thread = threading.Thread(
     target=run_schedule
 )  # Start the thread to run the schedule
 cron_thread.start()
+
+
+# nohup python3 cryptocompare/minute_perday_cc_pairs.py > cc_m.txt 2>&1 &
