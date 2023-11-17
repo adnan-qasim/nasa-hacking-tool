@@ -13,7 +13,7 @@ credentials_data = {
     "password": "BGI30r7ViaHz5pMhtMjkqw/GDeAD4S3McLoMJltIaaqF",
     "server_addr": "email-smtp.eu-north-1.amazonaws.com",
     "server_port": "587",
-    "destination_email": "gewgawrav@gmail.com",
+    "destination_email": "shiekh111aq@gmail.com",
     "sender_email": "error@catax.me",
     "subject": "Test Email",
     "body": "This is a test email. Hello from Error!",
@@ -24,15 +24,13 @@ fake_user_agent = fake_useragent.FakeUserAgent()
 db = cc_pair_master.db
 
 
-def GetPairOHLCV(
-    exchange: str, pair: str, timestamp: int = int(time.time()), limit: int = 1999
-):
+def GetPairOHLCV(exchange: str, pair: str, limit: int = 1999):
     """ """
     print(f"getting ohlcv of {pair} in {exchange}")
     collection = db[f"{pair}"]
     headers = {"User-Agent": fake_user_agent.chrome}
     fsym, tsym = pair.split("_")[0], pair.split("_")[1]
-    url = f"https://min-api.cryptocompare.com/data/v2/histominute?fsym={fsym}&tsym={tsym}&limit={limit}&e={exchange}&toTs={timestamp-300}"
+    url = f"https://min-api.cryptocompare.com/data/v2/histominute?fsym={fsym}&tsym={tsym}&limit={limit}&e={exchange}"
     response = requests.get(url, headers=headers).json()
     if response["Response"] == "Success":
         new = []
@@ -57,10 +55,7 @@ def GetPairOHLCV(
                 writable.append(new[i])
         if len(writable) == 0:
             return "Error"
-        try:
-            collection.insert_many(writable)
-        except Exception:
-            return "Error"
+        collection.insert_many(writable)
         print(f"{len(writable)} ohlcv of {pair} in {exchange} crawled")
         return [
             response["Data"]["TimeTo"],
@@ -90,7 +85,7 @@ def GetPairOHLCV(
                     )
                 elif t == "month":
                     raise Exception(response)
-        return GetPairOHLCV(exchange, fsym, tsym, limit, timestamp)
+        return GetPairOHLCV(exchange, fsym, tsym, limit)
 
     else:
         raise Exception(response)
@@ -103,6 +98,8 @@ def GetAllExchanges(pair: str):
     for exchange in doc["exchanges"]:
         try:
             result = GetPairOHLCV(exchange, pair)
+            if result == "Error":
+                continue
             total_crawled += result[2]
             default_timestamp = datetime.datetime.fromtimestamp(result[0]).strftime(
                 "%Y-%m-%d %H:%M:%S"
@@ -227,14 +224,13 @@ def odd_pairs():
         pair_list = json.load(f)
 
     # Iterate over odd indexed pairs from the first 22 pairs in the list
-    for pair in pair_list[0:22:2]:
-        # Check if the 'count' of the pair is 40 or more
-        if pair["count"] >= 40:
-            # If yes, then get all exchanges for this pair
-            GetAllExchanges(pair["pair_sym"])
+    pair_list = pair_list[0:22:2]
+    for pair in pair_list:
+        GetAllExchanges(pair["pair_sym"])
 
     # Prepare the email data using the credentials_data variable
     mail_data = credentials_data
+    mail_data["sender_email"] = "badhai@catax.me"
     mail_data[
         "subject"
     ] = "Badhai Ho!! aaj ka minutely crawler ka odd index pairs khatam.."
@@ -243,17 +239,13 @@ def odd_pairs():
     ] = f""" 
         Name: Minutely Odd Index
         Server IP: 
-        Exchanges Completed: {pair_list[0:22:2]}
+        Exchanges Completed: {pair_list}
         Completed at: {time.strftime('%Y-%m-%d %H:%M:%S')}
         
         Padh liya... ab jaake usko aaghe ka kaam de 😂
     """
 
     # Send the email using a POST request to the mailurl
-    mailResponse = requests.post(mailurl, json=mail_data)
-    # Update the recipient email
-    mail_data["destination_email"] = "shiekh111aq@gmail.com"
-    # Send the email again to the updated recipient
     mailResponse = requests.post(mailurl, json=mail_data)
 
 
@@ -268,14 +260,13 @@ def even_pairs():
         pair_list = json.load(f)
 
     # Iterate over even indexed pairs from the first 23 pairs in the list
-    for pair in pair_list[1:23:2]:
-        # Check if the 'count' of the pair is 40 or more
-        if pair["count"] >= 40:
-            # If yes, then get all exchanges for this pair
-            GetAllExchanges(pair["pair_sym"])
+    pair_list = pair_list[1:23:2]
+    for pair in pair_list:
+        GetAllExchanges(pair["pair_sym"])
 
     # Prepare the email data using the credentials_data variable
     mail_data = credentials_data
+    mail_data["sender_email"] = "badhai@catax.me"
     mail_data[
         "subject"
     ] = "Badhai Ho!! aaj ka minutely crawler ka even index pairs khatam.."
@@ -292,18 +283,14 @@ def even_pairs():
 
     # Send the email using a POST request to the mailurl
     mailResponse = requests.post(mailurl, json=mail_data)
-    # Update the recipient email
-    mail_data["destination_email"] = "shiekh111aq@gmail.com"
-    # Send the email again to the updated recipient
-    mailResponse = requests.post(mailurl, json=mail_data)
 
 
 def schedule_functions():
     # Schedule the job for odd pairs to run every day at 9 am morning.
-    schedule.every().day.at("09:00:00").do(threading.Thread(target=odd_pairs).start)
+    schedule.every().day.at("01:30:00").do(threading.Thread(target=odd_pairs).start)
 
     # Schedule the job for even pairs to run every day at 9 am morning.
-    schedule.every().day.at("09:00:30").do(threading.Thread(target=even_pairs).start)
+    schedule.every().day.at("01:30:30").do(threading.Thread(target=even_pairs).start)
 
     # Start the threads immediately
     threading.Thread(target=odd_pairs).start()
