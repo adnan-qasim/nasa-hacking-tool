@@ -164,10 +164,14 @@ def GetAllExchanges(pair: str):
                 return_document=ReturnDocument.AFTER,
             )
         except Exception:
-            db.master.update_one({"pair_sym": pair}, {"$pull": {"exchanges": exchange}})
+            db.master.update_one(
+                {"pair_sym": pair},
+                {"$pull": {"exchanges": exchange}, "$push": {"deprecated": exchange}},
+            )
             traceback_str = traceback.format_exc()
             error_info = {
                 "filename": f"Crypto Compare Minutely : {pair} -> {exchange}",
+                "server": "",
                 "error": traceback_str,
                 "time": time.strftime("%Y-%m-%d %H:%M:%S"),
             }
@@ -184,6 +188,7 @@ def GetAllExchanges(pair: str):
                     We encountered an error in the {error_info["filename"]} data crawler system. Please find the details below:
 
                     - Filename: {error_info["filename"]}
+                    - Server: {error_info["server"]}
                     - Error Time: {error_info["time"]}
 
                     Error Details:
@@ -238,7 +243,7 @@ def odd_pairs():
         "body"
     ] = f""" 
         Name: Minutely Odd Index
-        Server IP: 
+        Server: 
         Exchanges Completed: {pair_list}
         Completed at: {time.strftime('%Y-%m-%d %H:%M:%S')}
         
@@ -274,8 +279,8 @@ def even_pairs():
         "body"
     ] = f"""
         Name: Minutely Even Index 
-        Server IP: 
-        Exchanges Completed: {pair_list[1:23:2]}
+        Server: 
+        Exchanges Completed: {pair_list}
         Completed at: {time.strftime('%Y-%m-%d %H:%M:%S')}
         
         Padh liya... ab jaake usko aaghe ka kaam de 😂
