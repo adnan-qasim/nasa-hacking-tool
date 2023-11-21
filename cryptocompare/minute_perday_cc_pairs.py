@@ -1,11 +1,15 @@
 import requests, json, traceback
 import datetime, fake_useragent
 import pymongo, time, threading, os
-import cc_pair_master, schedule
+import cc_pair_master, signal, sys
 from pymongo.collection import ReturnDocument
+from apscheduler.schedulers.background import BackgroundScheduler
+from apscheduler.triggers.cron import CronTrigger
+from apscheduler.triggers.interval import IntervalTrigger
 
 
 mailurl = "https://emailsender.catax.me/sendEmail"
+server_name = ""
 
 
 credentials_data = {
@@ -22,6 +26,7 @@ credentials_data = {
 fake_user_agent = fake_useragent.FakeUserAgent()
 
 db = cc_pair_master.db
+dbs = cc_pair_master.mongo_uri.ServerLogsDB
 
 
 def GetPairOHLCV(exchange: str, pair: str, limit: int = 1999):
@@ -171,7 +176,7 @@ def GetAllExchanges(pair: str):
             traceback_str = traceback.format_exc()
             error_info = {
                 "filename": f"Crypto Compare Minutely : {pair} -> {exchange}",
-                "server": "",
+                "server": server_name,
                 "error": traceback_str,
                 "time": time.strftime("%Y-%m-%d %H:%M:%S"),
             }
@@ -188,7 +193,7 @@ def GetAllExchanges(pair: str):
                     We encountered an error in the {error_info["filename"]} data crawler system. Please find the details below:
 
                     - Filename: {error_info["filename"]}
-                    - Server: {error_info["server"]}
+                    - Server: {server_name}
                     - Error Time: {error_info["time"]}
 
                     Error Details:
@@ -241,12 +246,12 @@ def odd_pairs():
     ] = "Badhai Ho!! aaj ka minutely crawler ka odd index pairs khatam.."
     mail_data[
         "body"
-    ] = f""" 
+    ] = f"""
         Name: Minutely Odd Index
-        Server: 
+        Server: {server_name}
         Exchanges Completed: {pair_list}
         Completed at: {time.strftime('%Y-%m-%d %H:%M:%S')}
-        
+
         Padh liya... ab jaake usko aaghe ka kaam de 😂
     """
 
@@ -278,11 +283,11 @@ def even_pairs():
     mail_data[
         "body"
     ] = f"""
-        Name: Minutely Even Index 
-        Server: 
+        Name: Minutely Even Index
+        Server: {server_name}
         Exchanges Completed: {pair_list}
         Completed at: {time.strftime('%Y-%m-%d %H:%M:%S')}
-        
+
         Padh liya... ab jaake usko aaghe ka kaam de 😂
     """
 
@@ -290,34 +295,66 @@ def even_pairs():
     mailResponse = requests.post(mailurl, json=mail_data)
 
 
+def heartbeat():
+    insert_data = {
+        "server": server_name,
+        "message": "alive",
+        "time": datetime.datetime.now(),
+    }
+    dbs.heartbeat.delete_many(
+        {
+            "server": insert_data["server"],
+            "time": {"$lt": datetime.datetime.now() - datetime.timedelta(days=30)},
+        }
+    )
+    dbs.heartbeat.insert_one(insert_data)
+
+
 def schedule_functions():
-    # Schedule the job for odd pairs to run every day at 9 am morning.
-    schedule.every().day.at("01:30:00").do(threading.Thread(target=odd_pairs).start)
+    scheduler = BackgroundScheduler()
+    # Schedule the job for odd pairs to run every day at 2:30:00 AM.
+    scheduler.add_job(
+        odd_pairs, trigger=CronTrigger(hour=19, minute=3, second=0, day_of_week="*")
+    )
+    # Schedule the job for even pairs to run every day at 2:30:30 AM.
+    scheduler.add_job(
+        even_pairs, trigger=CronTrigger(hour=19, minute=3, second=30, day_of_week="*")
+    )
+    # Triggers Heartbeat after every 15 minutes
+    scheduler.add_job(heartbeat, trigger=IntervalTrigger(minutes=15))
+    # Start the scheduler
+    scheduler.start()
 
-    # Schedule the job for even pairs to run every day at 9 am morning.
-    schedule.every().day.at("01:30:30").do(threading.Thread(target=even_pairs).start)
+    def signal_handler(signal, frame):
+        print("Received termination signal. Shutting down...")
+        scheduler.shutdown()
+        sys.exit(0)
 
-    # Start the threads immediately
+    signal.signal(signal.SIGINT, signal_handler)
+
+
+def run_schedule():
+    while True:
+        time.sleep(10)
+
+
+try:
+    schedule_functions()
+
+    # Start the threads for odd_pairs and even_pairs immediately
     threading.Thread(target=odd_pairs).start()
     time.sleep(30)
     threading.Thread(target=even_pairs).start()
 
-
-# Start a new thread to run the schedule
-def run_schedule():
-    while True:
-        schedule.run_pending()
-        time.sleep(10)
-
-
-#### MAIN CODE TO RUN ####
-
-# cc_pair_master.add_master_data()
-schedule_functions()
-cron_thread = threading.Thread(
-    target=run_schedule
-)  # Start the thread to run the schedule
-cron_thread.start()
+    run_schedule()
+except Exception as e:
+    traceback_str = traceback.format_exc()
+    insert_data = {
+        "server": server_name,
+        "message": f"Code had an Error: {traceback_str}",
+        "time": datetime.datetime.now(),
+    }
+    sys.exit(1)
 
 
 # nohup python3 cryptocompare/minute_perday_cc_pairs.py > cc_m.txt 2>&1 &
