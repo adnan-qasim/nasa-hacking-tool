@@ -354,6 +354,7 @@ except Exception as e:
         "message": f"Code had an Error: {traceback_str}",
         "time": datetime.datetime.now(),
     }
+    dbs.Errors.insert_one(insert_data)
     sys.exit(1)
 
 
