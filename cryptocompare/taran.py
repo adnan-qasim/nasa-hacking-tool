@@ -28,7 +28,7 @@ database_name = "MasterCC"
 db = client[database_name]
 
 # Define the collection names
-collection_names = db.list_collection_names()
+collection_names = [name for name in db.list_collection_names() if name not in ["master", "errors"]]
 
 # Connect to your local MongoDB
 local_db_url = "mongodb://user:pass@mongodb.catax.me"
