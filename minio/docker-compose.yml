@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+  minio:
+    image: minio/minio
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - minio_storage:/data
+    environment:
+      MINIO_ROOT_USER: minioaccesskey
+      MINIO_ROOT_PASSWORD: miniosecretkey
+    command: server --console-address ":9001" /data
+    networks:
+      # Uncomment and edit this part if you are using custom networks
+      - mynetwork
+
+networks:
+  # Uncomment and edit this part if you are using custom networks
+  mynetwork:
+    driver: bridge
+
+volumes:
+  minio_storage: {}
