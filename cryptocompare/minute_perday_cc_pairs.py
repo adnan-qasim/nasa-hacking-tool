@@ -231,6 +231,7 @@ def odd_pairs():
     checks if their count is above a threshold, fetches data for eligible pairs,
     and then sends an email notification about the completion of the task.
     """
+    global last_mail
     # Opening the JSON file to read the list of pairs
     with open("./cryptocompare/pairs_list.json") as f:
         pair_list = json.load(f)
@@ -269,6 +270,7 @@ def even_pairs():
     checks if their count is above a threshold, fetches data for eligible pairs,
     and then sends an email notification about the completion of the task.
     """
+    global last_mail
     # Opening the JSON file to read the list of pairs
     with open("./cryptocompare/pairs_list.json") as f:
         pair_list = json.load(f)
@@ -320,11 +322,11 @@ def schedule_functions():
     scheduler = BackgroundScheduler()
     # Schedule the job for odd pairs to run every day at 2:30:00 AM.
     scheduler.add_job(
-        odd_pairs, trigger=CronTrigger(hour=19, minute=3, second=0, day_of_week="*")
+        odd_pairs, trigger=CronTrigger(hour=12, minute=0, second=0, day_of_week="*")
     )
     # Schedule the job for even pairs to run every day at 2:30:30 AM.
     scheduler.add_job(
-        even_pairs, trigger=CronTrigger(hour=19, minute=3, second=30, day_of_week="*")
+        even_pairs, trigger=CronTrigger(hour=12, minute=0, second=30, day_of_week="*")
     )
     # Triggers Heartbeat after every 15 minutes
     scheduler.add_job(heartbeat, trigger=IntervalTrigger(minutes=15))
@@ -345,6 +347,7 @@ def run_schedule():
 
 
 try:
+    # cc_pair_master.add_master_data()
     schedule_functions()
 
     # Start the threads for odd_pairs and even_pairs immediately
