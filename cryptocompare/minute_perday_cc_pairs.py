@@ -22,6 +22,8 @@ credentials_data = {
     "subject": "Test Email",
     "body": "This is a test email. Hello from Error!",
 }
+last_mail = datetime.datetime.now() - datetime.timedelta(minutes=30)
+
 
 fake_user_agent = fake_useragent.FakeUserAgent()
 
@@ -241,9 +243,9 @@ def odd_pairs():
     # Prepare the email data using the credentials_data variable
     mail_data = credentials_data
     mail_data["sender_email"] = "badhai@catax.me"
-    mail_data[
-        "subject"
-    ] = "Badhai Ho!! aaj ka minutely crawler ka odd index pairs khatam.."
+    mail_data["subject"] = (
+        "Badhai Ho!! aaj ka minutely crawler ka odd index pairs khatam.."
+    )
     mail_data[
         "body"
     ] = f"""
@@ -256,7 +258,9 @@ def odd_pairs():
     """
 
     # Send the email using a POST request to the mailurl
-    mailResponse = requests.post(mailurl, json=mail_data)
+    if datetime.datetime.now() >= last_mail + datetime.timedelta(minutes=30):
+        mailResponse = requests.post(mailurl, json=mail_data)
+        last_mail = datetime.datetime.now()
 
 
 def even_pairs():
@@ -277,9 +281,9 @@ def even_pairs():
     # Prepare the email data using the credentials_data variable
     mail_data = credentials_data
     mail_data["sender_email"] = "badhai@catax.me"
-    mail_data[
-        "subject"
-    ] = "Badhai Ho!! aaj ka minutely crawler ka even index pairs khatam.."
+    mail_data["subject"] = (
+        "Badhai Ho!! aaj ka minutely crawler ka even index pairs khatam.."
+    )
     mail_data[
         "body"
     ] = f"""
@@ -292,7 +296,9 @@ def even_pairs():
     """
 
     # Send the email using a POST request to the mailurl
-    mailResponse = requests.post(mailurl, json=mail_data)
+    if datetime.datetime.now() >= last_mail + datetime.timedelta(minutes=30):
+        mailResponse = requests.post(mailurl, json=mail_data)
+        last_mail = datetime.datetime.now()
 
 
 def heartbeat():
