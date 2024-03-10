@@ -414,7 +414,7 @@ def run_schedule():
 
 # Main execution block to start scheduled functions and handle errors.
 try:
-    cc_minutely_master.add_master_data()  # Add master data for the minutely crawler.
+    # cc_minutely_master.add_master_data()  # Add master data for the minutely crawler.
     schedule_functions()  # Set up and start the scheduled tasks.
 
     # Start processing odd and even pairs in parallel threads for immediate execution.
