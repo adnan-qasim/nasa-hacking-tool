@@ -1,26 +1,13 @@
 import requests, json, traceback
-import datetime, fake_useragent, cc_master
+import datetime, fake_useragent, cryptocompare.cc_hourly_master as cc_hourly_master
 import pymongo, time, threading, os
 from bson import ObjectId
 
-mailurl = "https://emailsender.catax.me/sendEmail"
-
-
-credentials_data = {
-    "username": "AKIAVG3KVGIQ5K5C54EV",
-    "password": "BGI30r7ViaHz5pMhtMjkqw/GDeAD4S3McLoMJltIaaqF",
-    "server_addr": "email-smtp.eu-north-1.amazonaws.com",
-    "server_port": "587",
-    "destination_email": "gewgawrav@gmail.com",
-    "sender_email": "error@catax.me",
-    "subject": "Test Email",
-    "body": "This is a test email. Hello from Error!",
-}
 
 fake_user_agent = fake_useragent.FakeUserAgent()
 
 # mongo_uri = pymongo.MongoClient("mongodb://localhost:27017/")
-db = cc_master.mongo_uri.MasterCC
+db = cc_hourly_master.mongo_uri.MasterCC
 
 
 def GetPairOHLCV(exchange: str, fsym: str, tsym: str, limit: int):
@@ -143,60 +130,7 @@ def CallAllPairs(exchange_id: str):
 
 
 def loop_all_exchanges():
-    exchanges_list = [
-        "BitSquare",
-        "BitTrex",
-        "Bitfinex",
-        "Bitforex",
-        "Bithumb",
-        "Bitmex",
-        "Bitso",
-        "Bitstamp",
-        "CoinEx",
-        "CoinJar",
-        "Coinbase",
-        "Coinsbit",
-        "Gateio",
-        "Gemini",
-        "HitBTC",
-        "HuobiPro",
-        "Korbit",
-        "Kraken",
-        "Kucoin",
-        "LAToken",
-        "LBank",
-        "Luno",
-        "MercadoBitcoin",
-        "OKCoin",
-        "OKEX",
-        "Poloniex",
-        "Upbit",
-        "Yobit",
-        "binanceusa",
-        "bitFlyer",
-        "bitFlyerFX",
-        "bitpanda",
-        "blockchaincom",
-        "btse",
-        "bybit",
-        "coinspro",
-        "coinzix",
-        "crosstower",
-        "cryptodotcom",
-        "curve",
-        "dcoin",
-        "erisx",
-        "gopax",
-        "huobijapan",
-        "itBit",
-        "lmax",
-        "mercatox",
-        "mexc",
-        "probit",
-        "uniswapv2",
-        "Binance",
-        "BitMart",
-    ]
+    exchanges_list = [a]
     with open("./cryptocompare/pairs-list.json", "r") as file:
         exchange_json = json.load(file)
     for exchange in exchange_json:
@@ -222,7 +156,7 @@ def loop_all_exchanges():
             db.Errors.insert_one(error_info)
 
             # Code to send Email about error
-            ErrorData = credentials_data
+            ErrorData = cc_hourly_master.credentials_data
             ErrorData["subject"] = "Error occurred in CryptoCompare's Crawler"
 
             # Replace placeholders with actual values
@@ -241,7 +175,7 @@ def loop_all_exchanges():
                     Padh liya?... Ab Jaldi jaake dekh
                 """
 
-            mailResponse = requests.post(mailurl, json=ErrorData)
+            mailResponse = requests.post(cc_hourly_master.mailurl, json=ErrorData)
 
             # Pause execution for 5 seconds before retrying the task
             time.sleep(5)

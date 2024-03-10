@@ -5,8 +5,8 @@ venv
 *.txt
 __pycache__
 test.py
+env.py
 
 !requirements.txt
-!pairs-list.json
-!pairs_list.json
-!exchanges_summed.json
+!pairs_list_for_hourly.json
+!pairs_list_for_minutely.json
