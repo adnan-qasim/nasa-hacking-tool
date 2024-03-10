@@ -1,8 +1,8 @@
-import requests, json, traceback
-import datetime, fake_useragent
-import pymongo, time, threading, os
-import cryptocompare.cc_hourly_master as cc_hourly_master, schedule
-from cryptocompare.env import *
+import json
+import fake_useragent
+import pymongo
+import cc_hourly_master as cc_hourly_master
+from env import *
 
 
 

@@ -1,6 +1,6 @@
 import requests, json, traceback
-import datetime, fake_useragent, cryptocompare.cc_hourly_master as cc_hourly_master
-import pymongo, time, threading, os
+import datetime, fake_useragent, cc_hourly_master as cc_hourly_master
+import time, threading
 from bson import ObjectId
 
 

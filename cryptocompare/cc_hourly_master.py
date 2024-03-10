@@ -1,7 +1,7 @@
-import requests, json, traceback
-import datetime, fake_useragent
-import pymongo, time, threading, os
-from cryptocompare.env import *
+import requests, json
+import fake_useragent
+import pymongo
+from env import *
 
 
 fake_user_agent = fake_useragent.FakeUserAgent()

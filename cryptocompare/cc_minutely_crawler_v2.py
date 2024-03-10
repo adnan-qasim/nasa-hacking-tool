@@ -7,7 +7,7 @@ import fake_useragent  # To generate fake browser user agents
 import pymongo  # MongoDB driver for Python
 import time  # For working with time-related functions
 import threading  # For running tasks in parallel threads
-import cryptocompare.cc_minutely_master as cc_minutely_master  # Specific module for crypto data
+import cc_minutely_master as cc_minutely_master  # Specific module for crypto data
 import signal  # To handle interrupt signals
 import sys  # For using system-specific parameters and functions
 from pymongo.collection import (
