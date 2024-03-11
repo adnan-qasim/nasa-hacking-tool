@@ -1,10 +1,7 @@
 import requests, json, traceback
 import datetime, fake_useragent
 import pymongo, time, threading, os, sys
-
-parent_directory = os.path.abspath("..")
-sys.path.append(parent_directory)
-from crypto_crawler.env import *
+from env import *
 
 
 # Calculate time 30 minutes ago from the current moment
@@ -62,7 +59,7 @@ def Exchange_ticker():
     db.ExchangeTickers.insert_many(resData)
 
     # Save the 'symbolList' as a JSON file named 'symbol-pair-list.json'
-    with open("./wazirx/symbol-pair-list.json", "w") as f:
+    with open("./wazirX/symbol-pair-list.json", "w") as f:
         json.dump(symbolList, f, indent=4)
 
 
@@ -73,7 +70,7 @@ def candlesticks():
     and stores the data in a database collection for each symbol.
     """
     # Open a file that contains a list of cryptocurrency symbols
-    with open("./wazirx/symbol-pair-list.json", "r") as f:
+    with open("./wazirX/symbol-pair-list.json", "r") as f:
         symbols = json.load(f)
 
     # Iterate over each symbol in the list
@@ -129,7 +126,7 @@ def RecentTrades():
     the data in a database collection named 'RecentTrades'.
     """
     # Open a file that contains a list of cryptocurrency symbols
-    with open("./wazirx/symbol-pair-list.json", "r") as f:
+    with open("./wazirX/symbol-pair-list.json", "r") as f:
         symbols = json.load(f)
 
     # Iterate over each symbol in the list
@@ -182,6 +179,7 @@ def schedule_task(target_func, interval_minutes, *arg):
         interval_minutes: The time interval, in minutes, at which the function should run.
         *arg: Any additional arguments that the target function may require.
     """
+    global last_mail
     while True:
         try:
             # Call the target function with any provided arguments (*arg)

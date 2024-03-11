@@ -1,0 +1,2382 @@
+[
+    {
+        "symbol": "btcinr",
+        "baseAsset": "btc",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "xrpinr",
+        "baseAsset": "xrp",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "ethinr",
+        "baseAsset": "eth",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "trxinr",
+        "baseAsset": "trx",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "eosinr",
+        "baseAsset": "eos",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "zilinr",
+        "baseAsset": "zil",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "batinr",
+        "baseAsset": "bat",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "zrxinr",
+        "baseAsset": "zrx",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "reqinr",
+        "baseAsset": "req",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "icxinr",
+        "baseAsset": "icx",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "omginr",
+        "baseAsset": "omg",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "iostinr",
+        "baseAsset": "iost",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "dentinr",
+        "baseAsset": "dent",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "hotinr",
+        "baseAsset": "hot",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "usdtinr",
+        "baseAsset": "usdt",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "wrxinr",
+        "baseAsset": "wrx",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "maticinr",
+        "baseAsset": "matic",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "bchinr",
+        "baseAsset": "bch",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "bnbinr",
+        "baseAsset": "bnb",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "oneinr",
+        "baseAsset": "one",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "yfiinr",
+        "baseAsset": "yfi",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "uniinr",
+        "baseAsset": "uni",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "linkinr",
+        "baseAsset": "link",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "sxpinr",
+        "baseAsset": "sxp",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "adainr",
+        "baseAsset": "ada",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "atominr",
+        "baseAsset": "atom",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "xlminr",
+        "baseAsset": "xlm",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "xeminr",
+        "baseAsset": "xem",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "zecinr",
+        "baseAsset": "zec",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "busdinr",
+        "baseAsset": "busd",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "yfiiinr",
+        "baseAsset": "yfii",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "dogeinr",
+        "baseAsset": "doge",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "dotinr",
+        "baseAsset": "dot",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "vetinr",
+        "baseAsset": "vet",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "crvinr",
+        "baseAsset": "crv",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "reninr",
+        "baseAsset": "ren",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "enjinr",
+        "baseAsset": "enj",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "manainr",
+        "baseAsset": "mana",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "hbarinr",
+        "baseAsset": "hbar",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "umainr",
+        "baseAsset": "uma",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "chrinr",
+        "baseAsset": "chr",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "paxginr",
+        "baseAsset": "paxg",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "1inchinr",
+        "baseAsset": "1inch",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "etcinr",
+        "baseAsset": "etc",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "uftinr",
+        "baseAsset": "uft",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "dockinr",
+        "baseAsset": "dock",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "filinr",
+        "baseAsset": "fil",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "wininr",
+        "baseAsset": "win",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "tkoinr",
+        "baseAsset": "tko",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "pushinr",
+        "baseAsset": "push",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "avaxinr",
+        "baseAsset": "avax",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "xvginr",
+        "baseAsset": "xvg",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "scinr",
+        "baseAsset": "sc",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "fttinr",
+        "baseAsset": "ftt",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "dgbinr",
+        "baseAsset": "dgb",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "cvcinr",
+        "baseAsset": "cvc",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "cakeinr",
+        "baseAsset": "cake",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "ftminr",
+        "baseAsset": "ftm",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "hntinr",
+        "baseAsset": "hnt",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "ctsiinr",
+        "baseAsset": "ctsi",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "kmdinr",
+        "baseAsset": "kmd",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "solinr",
+        "baseAsset": "sol",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "cotiinr",
+        "baseAsset": "coti",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "iotxinr",
+        "baseAsset": "iotx",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "shibinr",
+        "baseAsset": "shib",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "rlcinr",
+        "baseAsset": "rlc",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "trbinr",
+        "baseAsset": "trb",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "reefinr",
+        "baseAsset": "reef",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "icpinr",
+        "baseAsset": "icp",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "ontinr",
+        "baseAsset": "ont",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "ckbinr",
+        "baseAsset": "ckb",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "pntinr",
+        "baseAsset": "pnt",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "xvsinr",
+        "baseAsset": "xvs",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "viteinr",
+        "baseAsset": "vite",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "dcrinr",
+        "baseAsset": "dcr",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "mdxinr",
+        "baseAsset": "mdx",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "phainr",
+        "baseAsset": "pha",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "runeinr",
+        "baseAsset": "rune",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "ogninr",
+        "baseAsset": "ogn",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "datainr",
+        "baseAsset": "data",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "ksminr",
+        "baseAsset": "ksm",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "nkninr",
+        "baseAsset": "nkn",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "balinr",
+        "baseAsset": "bal",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "snxinr",
+        "baseAsset": "snx",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "axsinr",
+        "baseAsset": "axs",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "celrinr",
+        "baseAsset": "celr",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "alphainr",
+        "baseAsset": "alpha",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "compinr",
+        "baseAsset": "comp",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "aliceinr",
+        "baseAsset": "alice",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "egldinr",
+        "baseAsset": "egld",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "sandinr",
+        "baseAsset": "sand",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "frontinr",
+        "baseAsset": "front",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "lrcinr",
+        "baseAsset": "lrc",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "stxinr",
+        "baseAsset": "stx",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "algoinr",
+        "baseAsset": "algo",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "alpacainr",
+        "baseAsset": "alpaca",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "xecinr",
+        "baseAsset": "xec",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "dydxinr",
+        "baseAsset": "dydx",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "stptinr",
+        "baseAsset": "stpt",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "roseinr",
+        "baseAsset": "rose",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "slpinr",
+        "baseAsset": "slp",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "arinr",
+        "baseAsset": "ar",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "sushiinr",
+        "baseAsset": "sushi",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "mkrinr",
+        "baseAsset": "mkr",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "galainr",
+        "baseAsset": "gala",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "tlminr",
+        "baseAsset": "tlm",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "ensinr",
+        "baseAsset": "ens",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "ctxcinr",
+        "baseAsset": "ctxc",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "mboxinr",
+        "baseAsset": "mbox",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "ookiinr",
+        "baseAsset": "ooki",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "ampinr",
+        "baseAsset": "amp",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "nearinr",
+        "baseAsset": "near",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "ardrinr",
+        "baseAsset": "ardr",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "grtinr",
+        "baseAsset": "grt",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "bttcinr",
+        "baseAsset": "bttc",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "creaminr",
+        "baseAsset": "cream",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "bicoinr",
+        "baseAsset": "bico",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "spellinr",
+        "baseAsset": "spell",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "qntinr",
+        "baseAsset": "qnt",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "duskinr",
+        "baseAsset": "dusk",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "jasmyinr",
+        "baseAsset": "jasmy",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "tfuelinr",
+        "baseAsset": "tfuel",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "kncinr",
+        "baseAsset": "knc",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "dodoinr",
+        "baseAsset": "dodo",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "achinr",
+        "baseAsset": "ach",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "idexinr",
+        "baseAsset": "idex",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "celoinr",
+        "baseAsset": "celo",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "bakeinr",
+        "baseAsset": "bake",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "neoinr",
+        "baseAsset": "neo",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "apeinr",
+        "baseAsset": "ape",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "oxtinr",
+        "baseAsset": "oxt",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "rndrinr",
+        "baseAsset": "rndr",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "usdcinr",
+        "baseAsset": "usdc",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "hifiinr",
+        "baseAsset": "hifi",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "gftinr",
+        "baseAsset": "gft",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "blurinr",
+        "baseAsset": "blur",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "flokiinr",
+        "baseAsset": "floki",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "briseinr",
+        "baseAsset": "brise",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "injinr",
+        "baseAsset": "inj",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "pepeinr",
+        "baseAsset": "pepe",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "bobinr",
+        "baseAsset": "bob",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "comboinr",
+        "baseAsset": "combo",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "aaveinr",
+        "baseAsset": "aave",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "rsrinr",
+        "baseAsset": "rsr",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "cosinr",
+        "baseAsset": "cos",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "avainr",
+        "baseAsset": "ava",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "bandinr",
+        "baseAsset": "band",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "pendleinr",
+        "baseAsset": "pendle",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "loominr",
+        "baseAsset": "loom",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "wldinr",
+        "baseAsset": "wld",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "quickinr",
+        "baseAsset": "quick",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "lovelyinr",
+        "baseAsset": "lovely",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "vibinr",
+        "baseAsset": "vib",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "maskinr",
+        "baseAsset": "mask",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "adxinr",
+        "baseAsset": "adx",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "tomoinr",
+        "baseAsset": "tomo",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "blzinr",
+        "baseAsset": "blz",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "pundixinr",
+        "baseAsset": "pundix",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "sklinr",
+        "baseAsset": "skl",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "clvinr",
+        "baseAsset": "clv",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "stmxinr",
+        "baseAsset": "stmx",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "audioinr",
+        "baseAsset": "audio",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "glminr",
+        "baseAsset": "glm",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "ltcinr",
+        "baseAsset": "ltc",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "dashinr",
+        "baseAsset": "dash",
+        "quoteAsset": "inr"
+    },
+    {
+        "symbol": "xrpbtc",
+        "baseAsset": "xrp",
+        "quoteAsset": "btc"
+    },
+    {
+        "symbol": "trxbtc",
+        "baseAsset": "trx",
+        "quoteAsset": "btc"
+    },
+    {
+        "symbol": "ethbtc",
+        "baseAsset": "eth",
+        "quoteAsset": "btc"
+    },
+    {
+        "symbol": "zilbtc",
+        "baseAsset": "zil",
+        "quoteAsset": "btc"
+    },
+    {
+        "symbol": "batbtc",
+        "baseAsset": "bat",
+        "quoteAsset": "btc"
+    },
+    {
+        "symbol": "ltcbtc",
+        "baseAsset": "ltc",
+        "quoteAsset": "btc"
+    },
+    {
+        "symbol": "qkcbtc",
+        "baseAsset": "qkc",
+        "quoteAsset": "btc"
+    },
+    {
+        "symbol": "dashbtc",
+        "baseAsset": "dash",
+        "quoteAsset": "btc"
+    },
+    {
+        "symbol": "iostbtc",
+        "baseAsset": "iost",
+        "quoteAsset": "btc"
+    },
+    {
+        "symbol": "nulsbtc",
+        "baseAsset": "nuls",
+        "quoteAsset": "btc"
+    },
+    {
+        "symbol": "omgbtc",
+        "baseAsset": "omg",
+        "quoteAsset": "btc"
+    },
+    {
+        "symbol": "reqbtc",
+        "baseAsset": "req",
+        "quoteAsset": "btc"
+    },
+    {
+        "symbol": "sntbtc",
+        "baseAsset": "snt",
+        "quoteAsset": "btc"
+    },
+    {
+        "symbol": "thetabtc",
+        "baseAsset": "theta",
+        "quoteAsset": "btc"
+    },
+    {
+        "symbol": "zrxbtc",
+        "baseAsset": "zrx",
+        "quoteAsset": "btc"
+    },
+    {
+        "symbol": "eosbtc",
+        "baseAsset": "eos",
+        "quoteAsset": "btc"
+    },
+    {
+        "symbol": "icxbtc",
+        "baseAsset": "icx",
+        "quoteAsset": "btc"
+    },
+    {
+        "symbol": "fetbtc",
+        "baseAsset": "fet",
+        "quoteAsset": "btc"
+    },
+    {
+        "symbol": "celrbtc",
+        "baseAsset": "celr",
+        "quoteAsset": "btc"
+    },
+    {
+        "symbol": "maticbtc",
+        "baseAsset": "matic",
+        "quoteAsset": "btc"
+    },
+    {
+        "symbol": "adabtc",
+        "baseAsset": "ada",
+        "quoteAsset": "btc"
+    },
+    {
+        "symbol": "rvnbtc",
+        "baseAsset": "rvn",
+        "quoteAsset": "btc"
+    },
+    {
+        "symbol": "xmrbtc",
+        "baseAsset": "xmr",
+        "quoteAsset": "btc"
+    },
+    {
+        "symbol": "atombtc",
+        "baseAsset": "atom",
+        "quoteAsset": "btc"
+    },
+    {
+        "symbol": "bnbbtc",
+        "baseAsset": "bnb",
+        "quoteAsset": "btc"
+    },
+    {
+        "symbol": "wrxbtc",
+        "baseAsset": "wrx",
+        "quoteAsset": "btc"
+    },
+    {
+        "symbol": "stmxbtc",
+        "baseAsset": "stmx",
+        "quoteAsset": "btc"
+    },
+    {
+        "symbol": "btcusdt",
+        "baseAsset": "btc",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "trxusdt",
+        "baseAsset": "trx",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "xrpusdt",
+        "baseAsset": "xrp",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "eosusdt",
+        "baseAsset": "eos",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "ethusdt",
+        "baseAsset": "eth",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "icxusdt",
+        "baseAsset": "icx",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "ltcusdt",
+        "baseAsset": "ltc",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "hotusdt",
+        "baseAsset": "hot",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "batusdt",
+        "baseAsset": "bat",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "dashusdt",
+        "baseAsset": "dash",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "qkcusdt",
+        "baseAsset": "qkc",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "zilusdt",
+        "baseAsset": "zil",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "zrxusdt",
+        "baseAsset": "zrx",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "bchusdt",
+        "baseAsset": "bch",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "bchsvusdt",
+        "baseAsset": "bchsv",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "omgusdt",
+        "baseAsset": "omg",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "dentusdt",
+        "baseAsset": "dent",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "iostusdt",
+        "baseAsset": "iost",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "funusdt",
+        "baseAsset": "fun",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "sntusdt",
+        "baseAsset": "snt",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "thetausdt",
+        "baseAsset": "theta",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "requsdt",
+        "baseAsset": "req",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "xlmusdt",
+        "baseAsset": "xlm",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "xtzusdt",
+        "baseAsset": "xtz",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "fetusdt",
+        "baseAsset": "fet",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "tfuelusdt",
+        "baseAsset": "tfuel",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "celrusdt",
+        "baseAsset": "celr",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "maticusdt",
+        "baseAsset": "matic",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "adausdt",
+        "baseAsset": "ada",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "rvnusdt",
+        "baseAsset": "rvn",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "xmrusdt",
+        "baseAsset": "xmr",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "atomusdt",
+        "baseAsset": "atom",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "algousdt",
+        "baseAsset": "algo",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "linkusdt",
+        "baseAsset": "link",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "qtumusdt",
+        "baseAsset": "qtum",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "etcusdt",
+        "baseAsset": "etc",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "iotausdt",
+        "baseAsset": "iota",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "zecusdt",
+        "baseAsset": "zec",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "wavesusdt",
+        "baseAsset": "waves",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "ftmusdt",
+        "baseAsset": "ftm",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "enjusdt",
+        "baseAsset": "enj",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "lskusdt",
+        "baseAsset": "lsk",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "steemusdt",
+        "baseAsset": "steem",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "xvgusdt",
+        "baseAsset": "xvg",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "loomusdt",
+        "baseAsset": "loom",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "manausdt",
+        "baseAsset": "mana",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "blzusdt",
+        "baseAsset": "blz",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "scusdt",
+        "baseAsset": "sc",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "xemusdt",
+        "baseAsset": "xem",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "btsusdt",
+        "baseAsset": "bts",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "ardrusdt",
+        "baseAsset": "ardr",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "winusdt",
+        "baseAsset": "win",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "bnbusdt",
+        "baseAsset": "bnb",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "chzusdt",
+        "baseAsset": "chz",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "wrxusdt",
+        "baseAsset": "wrx",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "kavausdt",
+        "baseAsset": "kava",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "ankrusdt",
+        "baseAsset": "ankr",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "busdusdt",
+        "baseAsset": "busd",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "oneusdt",
+        "baseAsset": "one",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "ognusdt",
+        "baseAsset": "ogn",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "hiveusdt",
+        "baseAsset": "hive",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "fttusdt",
+        "baseAsset": "ftt",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "bandusdt",
+        "baseAsset": "band",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "jstusdt",
+        "baseAsset": "jst",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "ctsiusdt",
+        "baseAsset": "ctsi",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "chrusdt",
+        "baseAsset": "chr",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "tomousdt",
+        "baseAsset": "tomo",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "stxusdt",
+        "baseAsset": "stx",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "stmxusdt",
+        "baseAsset": "stmx",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "mdtusdt",
+        "baseAsset": "mdt",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "lrcusdt",
+        "baseAsset": "lrc",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "dogeusdt",
+        "baseAsset": "doge",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "neousdt",
+        "baseAsset": "neo",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "hbarusdt",
+        "baseAsset": "hbar",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "storjusdt",
+        "baseAsset": "storj",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "compusdt",
+        "baseAsset": "comp",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "cotiusdt",
+        "baseAsset": "coti",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "dgbusdt",
+        "baseAsset": "dgb",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "snxusdt",
+        "baseAsset": "snx",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "renusdt",
+        "baseAsset": "ren",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "sxpusdt",
+        "baseAsset": "sxp",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "mkrusdt",
+        "baseAsset": "mkr",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "avausdt",
+        "baseAsset": "ava",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "balusdt",
+        "baseAsset": "bal",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "srmusdt",
+        "baseAsset": "srm",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "egldusdt",
+        "baseAsset": "egld",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "cosusdt",
+        "baseAsset": "cos",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "dotusdt",
+        "baseAsset": "dot",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "yfiusdt",
+        "baseAsset": "yfi",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "iotxusdt",
+        "baseAsset": "iotx",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "sandusdt",
+        "baseAsset": "sand",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "uniusdt",
+        "baseAsset": "uni",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "datausdt",
+        "baseAsset": "data",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "paxgusdt",
+        "baseAsset": "paxg",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "creamusdt",
+        "baseAsset": "cream",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "umausdt",
+        "baseAsset": "uma",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "ksmusdt",
+        "baseAsset": "ksm",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "yfiiusdt",
+        "baseAsset": "yfii",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "trbusdt",
+        "baseAsset": "trb",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "adxusdt",
+        "baseAsset": "adx",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "aaveusdt",
+        "baseAsset": "aave",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "filusdt",
+        "baseAsset": "fil",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "crvusdt",
+        "baseAsset": "crv",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "nearusdt",
+        "baseAsset": "near",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "hntusdt",
+        "baseAsset": "hnt",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "avaxusdt",
+        "baseAsset": "avax",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "oxtusdt",
+        "baseAsset": "oxt",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "dockusdt",
+        "baseAsset": "dock",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "duskusdt",
+        "baseAsset": "dusk",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "wtcusdt",
+        "baseAsset": "wtc",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "injusdt",
+        "baseAsset": "inj",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "vetusdt",
+        "baseAsset": "vet",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "mtlusdt",
+        "baseAsset": "mtl",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "frontusdt",
+        "baseAsset": "front",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "glmusdt",
+        "baseAsset": "glm",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "sushiusdt",
+        "baseAsset": "sushi",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "firousdt",
+        "baseAsset": "firo",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "dexeusdt",
+        "baseAsset": "dexe",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "grtusdt",
+        "baseAsset": "grt",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "bntusdt",
+        "baseAsset": "bnt",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "rsrusdt",
+        "baseAsset": "rsr",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "1inchusdt",
+        "baseAsset": "1inch",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "uftusdt",
+        "baseAsset": "uft",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "pundixusdt",
+        "baseAsset": "pundix",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "ckbusdt",
+        "baseAsset": "ckb",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "vibusdt",
+        "baseAsset": "vib",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "tkousdt",
+        "baseAsset": "tko",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "pushusdt",
+        "baseAsset": "push",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "cvcusdt",
+        "baseAsset": "cvc",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "cakeusdt",
+        "baseAsset": "cake",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "kmdusdt",
+        "baseAsset": "kmd",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "solusdt",
+        "baseAsset": "sol",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "shibusdt",
+        "baseAsset": "shib",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "rlcusdt",
+        "baseAsset": "rlc",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "reefusdt",
+        "baseAsset": "reef",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "icpusdt",
+        "baseAsset": "icp",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "ontusdt",
+        "baseAsset": "ont",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "pntusdt",
+        "baseAsset": "pnt",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "xvsusdt",
+        "baseAsset": "xvs",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "viteusdt",
+        "baseAsset": "vite",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "dcrusdt",
+        "baseAsset": "dcr",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "mdxusdt",
+        "baseAsset": "mdx",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "phausdt",
+        "baseAsset": "pha",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "runeusdt",
+        "baseAsset": "rune",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "nknusdt",
+        "baseAsset": "nkn",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "axsusdt",
+        "baseAsset": "axs",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "alphausdt",
+        "baseAsset": "alpha",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "aliceusdt",
+        "baseAsset": "alice",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "klayusdt",
+        "baseAsset": "klay",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "xecusdt",
+        "baseAsset": "xec",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "perpusdt",
+        "baseAsset": "perp",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "qntusdt",
+        "baseAsset": "qnt",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "flowusdt",
+        "baseAsset": "flow",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "vgxusdt",
+        "baseAsset": "vgx",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "arusdt",
+        "baseAsset": "ar",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "dodousdt",
+        "baseAsset": "dodo",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "minausdt",
+        "baseAsset": "mina",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "clvusdt",
+        "baseAsset": "clv",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "bakeusdt",
+        "baseAsset": "bake",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "alpacausdt",
+        "baseAsset": "alpaca",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "gnousdt",
+        "baseAsset": "gno",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "tlmusdt",
+        "baseAsset": "tlm",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "audiousdt",
+        "baseAsset": "audio",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "sklusdt",
+        "baseAsset": "skl",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "mboxusdt",
+        "baseAsset": "mbox",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "degousdt",
+        "baseAsset": "dego",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "galausdt",
+        "baseAsset": "gala",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "maskusdt",
+        "baseAsset": "mask",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "ilvusdt",
+        "baseAsset": "ilv",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "mlnusdt",
+        "baseAsset": "mln",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "dydxusdt",
+        "baseAsset": "dydx",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "cfxusdt",
+        "baseAsset": "cfx",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "stptusdt",
+        "baseAsset": "stpt",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "radusdt",
+        "baseAsset": "rad",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "burgerusdt",
+        "baseAsset": "burger",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "roseusdt",
+        "baseAsset": "rose",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "scrtusdt",
+        "baseAsset": "scrt",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "sysusdt",
+        "baseAsset": "sys",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "agldusdt",
+        "baseAsset": "agld",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "keyusdt",
+        "baseAsset": "key",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "rareusdt",
+        "baseAsset": "rare",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "sunusdt",
+        "baseAsset": "sun",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "slpusdt",
+        "baseAsset": "slp",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "auctionusdt",
+        "baseAsset": "auction",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "atausdt",
+        "baseAsset": "ata",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "oceanusdt",
+        "baseAsset": "ocean",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "superusdt",
+        "baseAsset": "super",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "betausdt",
+        "baseAsset": "beta",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "waxpusdt",
+        "baseAsset": "waxp",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "qiusdt",
+        "baseAsset": "qi",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "chessusdt",
+        "baseAsset": "chess",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "ensusdt",
+        "baseAsset": "ens",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "nulsusdt",
+        "baseAsset": "nuls",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "ctxcusdt",
+        "baseAsset": "ctxc",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "ookiusdt",
+        "baseAsset": "ooki",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "ampusdt",
+        "baseAsset": "amp",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "voxelusdt",
+        "baseAsset": "voxel",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "powrusdt",
+        "baseAsset": "powr",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "antusdt",
+        "baseAsset": "ant",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "farmusdt",
+        "baseAsset": "farm",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "bttcusdt",
+        "baseAsset": "bttc",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "laziousdt",
+        "baseAsset": "lazio",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "portousdt",
+        "baseAsset": "porto",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "santosusdt",
+        "baseAsset": "santos",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "glmrusdt",
+        "baseAsset": "glmr",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "bicousdt",
+        "baseAsset": "bico",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "xnousdt",
+        "baseAsset": "xno",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "spellusdt",
+        "baseAsset": "spell",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "achusdt",
+        "baseAsset": "ach",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "nmrusdt",
+        "baseAsset": "nmr",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "jasmyusdt",
+        "baseAsset": "jasmy",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "kncusdt",
+        "baseAsset": "knc",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "idexusdt",
+        "baseAsset": "idex",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "fidausdt",
+        "baseAsset": "fida",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "darusdt",
+        "baseAsset": "dar",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "celousdt",
+        "baseAsset": "celo",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "tusdt",
+        "baseAsset": "t",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "pyrusdt",
+        "baseAsset": "pyr",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "imxusdt",
+        "baseAsset": "imx",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "api3usdt",
+        "baseAsset": "api3",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "alpineusdt",
+        "baseAsset": "alpine",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "astrusdt",
+        "baseAsset": "astr",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "fluxusdt",
+        "baseAsset": "flux",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "apeusdt",
+        "baseAsset": "ape",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "kdausdt",
+        "baseAsset": "kda",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "woousdt",
+        "baseAsset": "woo",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "acausdt",
+        "baseAsset": "aca",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "mcusdt",
+        "baseAsset": "mc",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "alcxusdt",
+        "baseAsset": "alcx",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "multiusdt",
+        "baseAsset": "multi",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "highusdt",
+        "baseAsset": "high",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "rndrusdt",
+        "baseAsset": "rndr",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "plausdt",
+        "baseAsset": "pla",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "forusdt",
+        "baseAsset": "for",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "gmtusdt",
+        "baseAsset": "gmt",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "linausdt",
+        "baseAsset": "lina",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "lokausdt",
+        "baseAsset": "loka",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "bswusdt",
+        "baseAsset": "bsw",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "bondusdt",
+        "baseAsset": "bond",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "reiusdt",
+        "baseAsset": "rei",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "lptusdt",
+        "baseAsset": "lpt",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "yggusdt",
+        "baseAsset": "ygg",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "cityusdt",
+        "baseAsset": "city",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "psgusdt",
+        "baseAsset": "psg",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "ghstusdt",
+        "baseAsset": "ghst",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "galusdt",
+        "baseAsset": "gal",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "opusdt",
+        "baseAsset": "op",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "leverusdt",
+        "baseAsset": "lever",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "ldousdt",
+        "baseAsset": "ldo",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "polyxusdt",
+        "baseAsset": "polyx",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "gftusdt",
+        "baseAsset": "gft",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "blurusdt",
+        "baseAsset": "blur",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "bnxusdt",
+        "baseAsset": "bnx",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "flokiusdt",
+        "baseAsset": "floki",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "briseusdt",
+        "baseAsset": "brise",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "arbusdt",
+        "baseAsset": "arb",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "pepeusdt",
+        "baseAsset": "pepe",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "idusdt",
+        "baseAsset": "id",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "bobusdt",
+        "baseAsset": "bob",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "lqtyusdt",
+        "baseAsset": "lqty",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "combousdt",
+        "baseAsset": "combo",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "pendleusdt",
+        "baseAsset": "pendle",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "wldusdt",
+        "baseAsset": "wld",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "quickusdt",
+        "baseAsset": "quick",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "lovelyusdt",
+        "baseAsset": "lovely",
+        "quoteAsset": "usdt"
+    },
+    {
+        "symbol": "ethwrx",
+        "baseAsset": "eth",
+        "quoteAsset": "wrx"
+    },
+    {
+        "symbol": "xrpwrx",
+        "baseAsset": "xrp",
+        "quoteAsset": "wrx"
+    },
+    {
+        "symbol": "yfiwrx",
+        "baseAsset": "yfi",
+        "quoteAsset": "wrx"
+    },
+    {
+        "symbol": "bnbwrx",
+        "baseAsset": "bnb",
+        "quoteAsset": "wrx"
+    },
+    {
+        "symbol": "trxwrx",
+        "baseAsset": "trx",
+        "quoteAsset": "wrx"
+    },
+    {
+        "symbol": "eoswrx",
+        "baseAsset": "eos",
+        "quoteAsset": "wrx"
+    },
+    {
+        "symbol": "ltcwrx",
+        "baseAsset": "ltc",
+        "quoteAsset": "wrx"
+    },
+    {
+        "symbol": "linkwrx",
+        "baseAsset": "link",
+        "quoteAsset": "wrx"
+    },
+    {
+        "symbol": "enjwrx",
+        "baseAsset": "enj",
+        "quoteAsset": "wrx"
+    },
+    {
+        "symbol": "dogewrx",
+        "baseAsset": "doge",
+        "quoteAsset": "wrx"
+    },
+    {
+        "symbol": "maticwrx",
+        "baseAsset": "matic",
+        "quoteAsset": "wrx"
+    },
+    {
+        "symbol": "adawrx",
+        "baseAsset": "ada",
+        "quoteAsset": "wrx"
+    },
+    {
+        "symbol": "batwrx",
+        "baseAsset": "bat",
+        "quoteAsset": "wrx"
+    },
+    {
+        "symbol": "shibwrx",
+        "baseAsset": "shib",
+        "quoteAsset": "wrx"
+    },
+    {
+        "symbol": "1inchwrx",
+        "baseAsset": "1inch",
+        "quoteAsset": "wrx"
+    },
+    {
+        "symbol": "dockwrx",
+        "baseAsset": "dock",
+        "quoteAsset": "wrx"
+    },
+    {
+        "symbol": "runewrx",
+        "baseAsset": "rune",
+        "quoteAsset": "wrx"
+    },
+    {
+        "symbol": "chrwrx",
+        "baseAsset": "chr",
+        "quoteAsset": "wrx"
+    },
+    {
+        "symbol": "yfiiwrx",
+        "baseAsset": "yfii",
+        "quoteAsset": "wrx"
+    }
+]

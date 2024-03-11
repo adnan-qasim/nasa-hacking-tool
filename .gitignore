@@ -10,3 +10,4 @@ env.py
 !requirements.txt
 !pairs_list_for_hourly.json
 !pairs_list_for_minutely.json
+!symbol-pair-list.json

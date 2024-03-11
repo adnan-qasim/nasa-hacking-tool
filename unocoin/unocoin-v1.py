@@ -1,11 +1,11 @@
 import requests, json, traceback
 import datetime, pytz, fake_useragent
 import pymongo, time, threading, os, sys
+from env import *
 
-parent_directory = os.path.abspath("..")
-sys.path.append(parent_directory)
-from crypto_crawler.env import *
 
+# Calculate time 30 minutes ago from the current moment
+last_mail = datetime.datetime.now() - datetime.timedelta(minutes=30)
 
 # Connecting to MongoDB and initializing the database
 mongo_uri = pymongo.MongoClient(f"mongodb://{mongo_user_pass}@mongodb.catax.me/")
@@ -192,6 +192,7 @@ def schedule_task(target_func, interval_minutes, *arg):
         interval_minutes: The time interval, in minutes, at which the function should run.
         *arg: Any additional arguments that the target function may require.
     """
+    global last_mail
     while True:
         try:
             # Call the target function with any provided arguments (*arg)
