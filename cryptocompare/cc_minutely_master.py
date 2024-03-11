@@ -5,13 +5,12 @@ import cc_hourly_master as cc_hourly_master
 from env import *
 
 
-
-
-
 fake_user_agent = fake_useragent.FakeUserAgent()
 
 # mongo_uri = pymongo.MongoClient("mongodb://localhost:27017/")
-mongo_uri = pymongo.MongoClient(f"mongodb://{mongo_user_pass}@tongodb.catax.me/", port=27018)
+mongo_uri = pymongo.MongoClient(
+    f"mongodb://{mongo_user_pass}@tongodb.catax.me/", port=27018
+)
 mongo_uri2 = pymongo.MongoClient(f"mongodb://{mongo_user_pass}@chongodb.catax.me/")
 dbm = mongo_uri2.MasterCC
 db = mongo_uri.MinutelyCC

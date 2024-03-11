@@ -4,7 +4,9 @@ import pymongo, time, threading, os, sys
 from env import *
 
 # Connecting to MongoDB and initializing the database
-mongo_uri = pymongo.MongoClient(f"mongodb://{mongo_user_pass}@tongodb.catax.me/")
+mongo_uri = pymongo.MongoClient(
+    f"mongodb://{mongo_user_pass}@tongodb.catax.me/", port=27018
+)
 db = mongo_uri.CoinDCX_DB
 
 

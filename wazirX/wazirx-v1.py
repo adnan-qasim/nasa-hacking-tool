@@ -11,7 +11,9 @@ last_mail = datetime.datetime.now() - datetime.timedelta(minutes=30)
 fake_user_agent = fake_useragent.FakeUserAgent()
 
 # Connecting to MongoDB and initializing the database
-mongo_uri = pymongo.MongoClient(f"mongodb://{mongo_user_pass}@tongodb.catax.me/")
+mongo_uri = pymongo.MongoClient(
+    f"mongodb://{mongo_user_pass}@tongodb.catax.me/", port=27018
+)
 db = mongo_uri.WazirXdb
 
 
