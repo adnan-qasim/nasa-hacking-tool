@@ -435,3 +435,5 @@ except Exception as e:  # Catch any exceptions that occur during setup or execut
     }
     dbs.Errors.insert_one(insert_data)
     sys.exit(1)  # Exit the script with an error status.
+
+# nohup python3 cryptocompare/cc_minutely_crawler_v2.py > cc_min.txt 2>&1 &

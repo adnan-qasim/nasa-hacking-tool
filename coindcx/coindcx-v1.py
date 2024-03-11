@@ -1,28 +1,13 @@
 import requests, json, traceback
-import datetime, fake_useragent 
+import datetime, fake_useragent
 import pymongo, time, threading, os
-
-
-mailurl = "https://emailsender.catax.me/sendEmail"
-
-
-
-credemtials_data = {
-    "username": "AKIAVG3KVGIQ5K5C54EV",
-    "password": "BGI30r7ViaHz5pMhtMjkqw/GDeAD4S3McLoMJltIaaqF",
-    "server_addr": "email-smtp.eu-north-1.amazonaws.com",
-    "server_port": "587",
-    "destination_email": "gewgawrav@gmail.com",
-    "sender_email": "error@catax.me",
-    "subject": "Test Email",
-    "body": "This is a test email. Hello from Error!"
-}
+from env import *
 
 
 # Connecting to MongoDB and initializing the database
-mongo_uri = pymongo.MongoClient("mongodb://user:pass@mongodb.catax.me/")
-dbpx = mongo_uri.ProxiesDatabase
-db = mongo_uri.CoinDCXdb
+mongo_uri = pymongo.MongoClient(f"mongodb://{mongo_user_pass}@tongodb.catax.me/")
+# dbpx = mongo_uri.ProxiesDatabase
+db = mongo_uri.CoinDCX_DB
 
 
 # Fake user agent to send requests anonymously
@@ -56,8 +41,6 @@ def exchange_ticker():
     db.ExchangeTickers.insert_many(response)
 
 
-
-
 def market_details():
     """
     This function fetches market details from a cryptocurrency exchange (Coindcx)
@@ -85,8 +68,6 @@ def market_details():
     # Save the list of trading pairs to a local JSON file called 'coindcx-pair_list.json'
     with open("./coindcx/coindcx-pair_list.json", "w") as f:
         json.dump(pair_list, f, indent=4)
-
-
 
 
 def pair_trades():
@@ -138,8 +119,6 @@ def pair_trades():
             ):
                 db.RecentTrades.insert_one(new_trade)
 
-
-
         # Pause the program for 100 seconds before fetching data for the next pair.
         time.sleep(100)
 
@@ -181,8 +160,6 @@ def candlesticks():
                 # If not, insert the candlestick data into the database
                 db.Candlesticks.insert_one(candle)
 
-
-
         # Pause execution for 150 seconds (2.5 minutes) before processing the next pair
         time.sleep(150)
 
@@ -216,28 +193,16 @@ def schedule_task(target_func, interval_minutes, *arg):
                 ),  # Record the current date and time
             }
 
-            # # Check if an error log file already exists
-            # if os.path.exists("error_log.json"):
-            #     # If it exists, open it and load its contents into a list
-            #     with open("error_log.json", "r") as errorfile:
-            #         error_list = json.load(errorfile)
-            # else:
-            #     # If it doesn't exist, create an empty list
-            #     error_list = []
-            # # Append the new error information to the list of errors
-            # error_list.append(error_info)
-            # # Write the updated list of errors back to the error log file
-            # with open("error_log.json", "w") as error_file:
-            #     json.dump(error_list, error_file, indent=4)
-            
-            mongo_uri.ErrosLogs.Errors.insert_one(error_info)
+            mongo_uri.ErrorsLogs.Errors.insert_one(error_info)
 
-            #Code to send Email about error
-            ErrorData =  credemtials_data
-            ErrorData['subject'] =  "Error occured in Coin DCX's Crawler"
+            # Code to send Email about error
+            ErrorData = credentials_data
+            ErrorData["subject"] = "Error occurred in Coin DCX's Crawler"
 
             # Replace placeholders with actual values
-            ErrorData['body'] = f"""
+            ErrorData[
+                "body"
+            ] = f"""
                 Dear Admin,
 
                 We encountered an error in the {error_info["filename"]} data crawler system. Please find the details below:
@@ -249,26 +214,16 @@ def schedule_task(target_func, interval_minutes, *arg):
 
                 {error_info["error"]}
                 
-                We appreciate your prompt attention to this matter. If you need any further information, please feel free to reach out.
-
                 Padh liya?... Ab Jaldi jaake dekh
             """
 
-
-            mailResponse =  requests.post(mailurl,json=ErrorData)
-            # print("Response:")
-            # print(mailResponse.status_code)
-            # print(mailResponse.text)
-
+            # Send the email if there is no mail sent in previous 30 minutes
+            if datetime.datetime.now() >= last_mail + datetime.timedelta(minutes=30):
+                mailResponse = requests.post(mailurl, json=ErrorData)
+                last_mail = datetime.datetime.now()
 
             # Pause execution for 5 seconds before retrying the task
             time.sleep(5)
-
-
-# exchange_ticker()
-# market_details()
-# pair_trades()
-# candlesticks()
 
 
 # The first thread, 'tEt', is set to run the 'exchange_ticker' function every 60 minutes.
@@ -285,5 +240,5 @@ market_details()
 
 # Start each of the three threads, which will run their respective functions periodically.
 tEt.start()  # 'exchange_ticker' function every 60 minutes
-# tPT.start()  # 'pair_trades' function every 720 minutes
-# tCS.start()  # 'candlesticks' function every 4320 minutes
+tPT.start()  # 'pair_trades' function every 720 minutes
+tCS.start()  # 'candlesticks' function every 4320 minutes
