@@ -1,7 +1,10 @@
 import requests, json, traceback
 import datetime, fake_useragent
-import pymongo, time, threading, os
-from env import *
+import pymongo, time, threading, os, sys
+
+parent_directory = os.path.abspath("..")
+sys.path.append(parent_directory)
+from crypto_crawler.env import *
 
 
 # Connecting to MongoDB and initializing the database

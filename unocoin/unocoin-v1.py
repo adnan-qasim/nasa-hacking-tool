@@ -1,21 +1,10 @@
 import requests, json, traceback
 import datetime, pytz, fake_useragent
-import pymongo, time, threading, os
+import pymongo, time, threading, os,sys
 
-mailurl = "https://emailsender.catax.me/sendEmail"
-
-
-
-credemtials_data = {
-    "username": "AKIAVG3KVGIQ5K5C54EV",
-    "password": "BGI30r7ViaHz5pMhtMjkqw/GDeAD4S3McLoMJltIaaqF",
-    "server_addr": "email-smtp.eu-north-1.amazonaws.com",
-    "server_port": "587",
-    "destination_email": "gewgawrav@gmail.com",
-    "sender_email": "error@catax.me",
-    "subject": "Test Email",
-    "body": "This is a test email. Hello from Error!"
-}
+parent_directory = os.path.abspath("..")
+sys.path.append(parent_directory)
+from crypto_crawler.env import *
 
 
 # Connecting to MongoDB and initializing the database
@@ -239,14 +228,16 @@ def schedule_task(target_func, interval_minutes, *arg):
             # with open("error_log.json", "w") as error_file:
             #     json.dump(error_list, error_file, indent=4)
 
-            mongo_uri.ErrosLogs.Errors.insert_one(error_info)            
-            
-            #Code to send Email about error
-            ErrorData =  credemtials_data
-            ErrorData['subject'] =  "Error occured in UnoCoin's Crawler"
+            mongo_uri.ErrosLogs.Errors.insert_one(error_info)
+
+            # Code to send Email about error
+            ErrorData = credemtials_data
+            ErrorData["subject"] = "Error occured in UnoCoin's Crawler"
 
             # Replace placeholders with actual values
-            ErrorData['body'] = f"""
+            ErrorData[
+                "body"
+            ] = f"""
                 Dear Admin,
 
                 We encountered an error in the {error_info["filename"]} data crawler system. Please find the details below:
@@ -263,8 +254,7 @@ def schedule_task(target_func, interval_minutes, *arg):
                 Padh liya?... Ab Jaldi jaake dekh
             """
 
-
-            mailResponse =  requests.post(mailurl,json=ErrorData)
+            mailResponse = requests.post(mailurl, json=ErrorData)
 
             # Pause execution for 5 seconds before retrying the task
             time.sleep(5)
