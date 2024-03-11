@@ -6,11 +6,13 @@ parent_directory = os.path.abspath("..")
 sys.path.append(parent_directory)
 from crypto_crawler.env import *
 
-
 # Connecting to MongoDB and initializing the database
 mongo_uri = pymongo.MongoClient(f"mongodb://{mongo_user_pass}@tongodb.catax.me/")
-# dbpx = mongo_uri.ProxiesDatabase
 db = mongo_uri.CoinDCX_DB
+
+
+# Calculate time 30 minutes ago from the current moment
+last_mail = datetime.datetime.now() - datetime.timedelta(minutes=30)
 
 
 # Fake user agent to send requests anonymously
@@ -196,7 +198,7 @@ def schedule_task(target_func, interval_minutes, *arg):
                 ),  # Record the current date and time
             }
 
-            mongo_uri.ErrorsLogs.Errors.insert_one(error_info)
+            db.Errors.insert_one(error_info)
 
             # Code to send Email about error
             ErrorData = credentials_data

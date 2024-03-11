@@ -7,12 +7,14 @@ sys.path.append(parent_directory)
 from crypto_crawler.env import *
 
 
+# Calculate time 30 minutes ago from the current moment
+last_mail = datetime.datetime.now() - datetime.timedelta(minutes=30)
+
 # Fake user agent to send requests anonymously
 fake_user_agent = fake_useragent.FakeUserAgent()
 
 # Connecting to MongoDB and initializing the database
-mongo_uri = pymongo.MongoClient("mongodb://user:pass@mongodb.catax.me/")
-dbpx = mongo_uri.ProxiesDatabase
+mongo_uri = pymongo.MongoClient(f"mongodb://{mongo_user_pass}@tongodb.catax.me/")
 db = mongo_uri.WazirXdb
 
 
@@ -215,10 +217,10 @@ def schedule_task(target_func, interval_minutes, *arg):
             # with open("error_log.json", "w") as error_file:
             #     json.dump(error_list, error_file, indent=4)
 
-            mongo_uri.ErrosLogs.Errors.insert_one(error_info)
+            db.Errors.insert_one(error_info)
 
             # Code to send Email about error
-            ErrorData = credemtials_data
+            ErrorData = credentials_data
             ErrorData["subject"] = "Error occured in WazirX's Crawler"
 
             # Replace placeholders with actual values
@@ -237,16 +239,15 @@ def schedule_task(target_func, interval_minutes, *arg):
                 Padh liya?... Ab Jaldi jaake dekh
             """
 
-            mailResponse = requests.post(mailurl, json=ErrorData)
+            if datetime.datetime.now() >= last_mail + datetime.timedelta(minutes=30):
+                mailResponse = requests.post(mailurl, json=ErrorData)
+                last_mail = datetime.datetime.now()
 
             # Pause execution for 5 seconds before retrying the task
             time.sleep(5)
 
 
-# RecentTrades()
-
 # Create three threads that will run different functions at specified intervals.
-
 # The first thread, 'tET', is set to run the 'Exchange_ticker' function every 180 minutes (3 hours).
 tET = threading.Thread(target=schedule_task, args=(Exchange_ticker, 180))
 

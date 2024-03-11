@@ -1,6 +1,6 @@
 import requests, json, traceback
 import datetime, pytz, fake_useragent
-import pymongo, time, threading, os,sys
+import pymongo, time, threading, os, sys
 
 parent_directory = os.path.abspath("..")
 sys.path.append(parent_directory)
@@ -8,8 +8,7 @@ from crypto_crawler.env import *
 
 
 # Connecting to MongoDB and initializing the database
-mongo_uri = pymongo.MongoClient("mongodb://user:pass@mongodb.catax.me/")
-dbpx = mongo_uri.ProxiesDatabase
+mongo_uri = pymongo.MongoClient(f"mongodb://{mongo_user_pass}@mongodb.catax.me/")
 dbuc = mongo_uri.UnoCoinDatabase
 
 # Fake user agent to send requests anonymously
@@ -228,10 +227,10 @@ def schedule_task(target_func, interval_minutes, *arg):
             # with open("error_log.json", "w") as error_file:
             #     json.dump(error_list, error_file, indent=4)
 
-            mongo_uri.ErrosLogs.Errors.insert_one(error_info)
+            dbuc.Errors.insert_one(error_info)
 
             # Code to send Email about error
-            ErrorData = credemtials_data
+            ErrorData = credentials_data
             ErrorData["subject"] = "Error occured in UnoCoin's Crawler"
 
             # Replace placeholders with actual values
@@ -254,8 +253,9 @@ def schedule_task(target_func, interval_minutes, *arg):
                 Padh liya?... Ab Jaldi jaake dekh
             """
 
-            mailResponse = requests.post(mailurl, json=ErrorData)
-
+            if datetime.datetime.now() >= last_mail + datetime.timedelta(minutes=30):
+                mailResponse = requests.post(mailurl, json=ErrorData)
+                last_mail = datetime.datetime.now()
             # Pause execution for 5 seconds before retrying the task
             time.sleep(5)
 
