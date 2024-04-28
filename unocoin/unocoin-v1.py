@@ -100,7 +100,7 @@ def last_trade():
         # Check if we received a valid response from the API
         if response is not None:
             # For each trade data (we'll call them 'keys') in the response, do the following:
-            for key in response:
+            for key in response['buy']:
                 # Check if the trade data is already in the database 'LastTrades'
                 if dbuc.LastTrades.find_one({"trade_id": key["trade_id"]}) is not None:
                     continue  # Skip if it's a duplicate
