@@ -205,9 +205,12 @@ def GetAllExchanges(pair: str):
                     Padh liya?... Ab Jaldi jaake dekh
                 """
 
-            mailResponse = requests.post(mailurl, json=ErrorData)
-            ErrorData["destination_email"] = "shiekh111aq@gmail.com"
-            mailResponse = requests.post(mailurl, json=ErrorData)
+            global last_mail
+            if datetime.datetime.now() >= last_mail + datetime.timedelta(minutes=30):
+                mailResponse = requests.post(mailurl, json=ErrorData)
+                ErrorData["destination_email"] = "shiekh111aq@gmail.com"   
+                mailResponse = requests.post(mailurl, json=ErrorData)
+                last_mail = datetime.datetime.now()
 
         finally:
             time.sleep(12)
@@ -255,7 +258,7 @@ def odd_pairs():
         Exchanges Completed: {pair_list}
         Completed at: {time.strftime('%Y-%m-%d %H:%M:%S')}
 
-        Padh liya... ab jaake usko aaghe ka kaam de 😂
+        Padh liya... AB SOO JA 😂
     """
 
     # Send the email using a POST request to the mailurl
@@ -294,7 +297,7 @@ def even_pairs():
         Exchanges Completed: {pair_list}
         Completed at: {time.strftime('%Y-%m-%d %H:%M:%S')}
 
-        Padh liya... ab jaake usko aaghe ka kaam de 😂
+        Padh liya... AB SOO JA 😂
     """
 
     # Send the email using a POST request to the mailurl
