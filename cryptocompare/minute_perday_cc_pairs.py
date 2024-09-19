@@ -9,7 +9,7 @@ from apscheduler.triggers.interval import IntervalTrigger
 
 
 mailurl = "https://emailsender.catax.me/sendEmail"
-server_name = ""
+server_name = "Server-1"
 
 
 credentials_data = {
