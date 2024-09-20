@@ -1,18 +1,9 @@
-import requests
 import json
 import traceback
-import datetime
-import fake_useragent
 import pymongo
-import time
-import os
-import cc_master  # Assuming this is a module you are using
-import schedule
 from pymongo import InsertOne
 
 
-# MongoDB connection
-fake_user_agent = fake_useragent.FakeUserAgent()
 mongo_uri = pymongo.MongoClient(
     "mongodb+srv://parth01:parth123@cluster0.77are8z.mongodb.net/?retryWrites=true&w=majority"
 )
