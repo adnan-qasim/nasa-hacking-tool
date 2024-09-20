@@ -10,18 +10,6 @@ import cc_master  # Assuming this is a module you are using
 import schedule
 from pymongo import InsertOne
 
-# SMTP Credentials
-mailurl = "https://emailsender.catax.me/sendEmail"
-credentials_data = {
-    "username": "AKIAVG3KVGIQ5K5C54EV",
-    "password": "BGI30r7ViaHz5pMhtMjkqw/GDeAD4S3McLoMJltIaaqF",
-    "server_addr": "email-smtp.eu-north-1.amazonaws.com",
-    "server_port": "587",
-    "destination_email": "gewgawrav@gmail.com",
-    "sender_email": "error@catax.me",
-    "subject": "Test Email",
-    "body": "This is a test email. Hello from Error!",
-}
 
 # MongoDB connection
 fake_user_agent = fake_useragent.FakeUserAgent()
