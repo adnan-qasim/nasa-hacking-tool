@@ -28,7 +28,7 @@ db = mongo_uri.PairsClusterMinutely
 
 
 def add_master_data():
-    with open("./cryptocompare/pairs_list.json") as f:
+    with open("./cryptocompare/pairs_in_how_many_exchanges.json") as f:
         pair_list = json.load(f)
     for pairs in pair_list:
         exchanges = dbm.master.find({"pair_sym": pairs["pair_sym"]})

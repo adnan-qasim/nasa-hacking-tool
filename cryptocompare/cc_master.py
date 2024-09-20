@@ -112,7 +112,7 @@ def add_master_data():
             print(f"An error occurred during bulk write: {e}")
 
     # Save the filtered list to JSON
-    with open("./cryptocompare/pairs-list.json", "w") as file:
+    with open("./cryptocompare/exchange_pairs.json", "w") as file:
         json.dump(filtered_list, file, indent=4)
 
 

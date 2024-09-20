@@ -7,6 +7,6 @@ __pycache__
 test.py
 
 !requirements.txt
-!pairs-list.json
-!pairs_list.json
+!exchange_pairs.json
 !exchanges_summed.json
+!pairs_in_how_many_exchanges.json
