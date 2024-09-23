@@ -14,7 +14,7 @@ from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.triggers.cron import CronTrigger
 from apscheduler.triggers.interval import IntervalTrigger
 
-server_name = "Server-1"
+server_name = "our_server_name"
 
 fake_user_agent = fake_useragent.FakeUserAgent()
 
