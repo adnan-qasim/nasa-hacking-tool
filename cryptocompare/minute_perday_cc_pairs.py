@@ -1,14 +1,4 @@
-import requests
-import json
-import traceback
-import datetime
-import fake_useragent
-import pymongo
-import time
-import threading
-import sys
-import cc_pair_master
-import signal
+import requests, json, traceback, datetime, fake_useragent, pymongo, time, threading, sys, cc_pair_master, signal
 from pymongo.collection import ReturnDocument
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.triggers.cron import CronTrigger
@@ -16,10 +6,52 @@ from apscheduler.triggers.interval import IntervalTrigger
 
 server_name = "our_server_name"
 
+mailurl = "https://emailsender.catax.me/sendEmail"
+credentials_data = {
+    "username": "AKIAVG3KVGIQ5K5C54EV",
+    "password": "BGI30r7ViaHz5pMhtMjkqw/GDeAD4S3McLoMJltIaaqF",
+    "server_addr": "email-smtp.eu-north-1.amazonaws.com",
+    "server_port": "587",
+    "destination_email": "shiekh111aq@gmail.com",
+    "sender_email": "error@catax.me",
+    "subject": "Test Email",
+    "body": "This is a test email. Hello from Error!",
+}
+last_mail = datetime.datetime.now() - datetime.timedelta(minutes=40)
+
 fake_user_agent = fake_useragent.FakeUserAgent()
 
 db = cc_pair_master.db
 dbs = cc_pair_master.mongo_uri.ServerLogsDB
+
+
+def handle_rate_limit(response):
+    """Handle API rate limiting based on the response."""
+    calls_made = response["RateLimit"]["calls_made"]
+    for t, v in response["RateLimit"]["max_calls"].items():
+        if calls_made.get(t, 0) > v:
+            if t == "minute":
+                print("Rate limit exceeded for minute. Sleeping for 60 seconds.")
+                time.sleep(60)
+            elif t == "hour":
+                sleep_time = (65 - datetime.datetime.now().minute) * 60
+                print(
+                    f"Rate limit exceeded for hour. Sleeping for {sleep_time} seconds."
+                )
+                time.sleep(sleep_time)
+            elif t == "day":
+                next_day = datetime.datetime.combine(
+                    datetime.date.today() + datetime.timedelta(days=1),
+                    datetime.time(0, 5, 0),
+                )
+                sleep_seconds = (next_day - datetime.datetime.now()).total_seconds()
+                print(
+                    f"Rate limit exceeded for day. Sleeping until next day for {sleep_seconds} seconds."
+                )
+                time.sleep(sleep_seconds)
+            elif t == "month":
+                print("Rate limit exceeded for month. Raising exception.")
+                raise Exception(response)
 
 
 def GetPairOHLCV(exchange: str, pair: str, limit: int = 1999):
@@ -86,35 +118,6 @@ def GetPairOHLCV(exchange: str, pair: str, limit: int = 1999):
         raise Exception(data)
 
 
-def handle_rate_limit(response):
-    """Handle API rate limiting based on the response."""
-    calls_made = response["RateLimit"]["calls_made"]
-    for t, v in response["RateLimit"]["max_calls"].items():
-        if calls_made.get(t, 0) > v:
-            if t == "minute":
-                print("Rate limit exceeded for minute. Sleeping for 60 seconds.")
-                time.sleep(60)
-            elif t == "hour":
-                sleep_time = (65 - datetime.datetime.now().minute) * 60
-                print(
-                    f"Rate limit exceeded for hour. Sleeping for {sleep_time} seconds."
-                )
-                time.sleep(sleep_time)
-            elif t == "day":
-                next_day = datetime.datetime.combine(
-                    datetime.date.today() + datetime.timedelta(days=1),
-                    datetime.time(0, 5, 0),
-                )
-                sleep_seconds = (next_day - datetime.datetime.now()).total_seconds()
-                print(
-                    f"Rate limit exceeded for day. Sleeping until next day for {sleep_seconds} seconds."
-                )
-                time.sleep(sleep_seconds)
-            elif t == "month":
-                print("Rate limit exceeded for month. Raising exception.")
-                raise Exception(response)
-
-
 def GetAllExchanges(pair: str):
     """Process all exchanges for a given cryptocurrency pair."""
     startTime = datetime.datetime.now()
@@ -171,6 +174,31 @@ def GetAllExchanges(pair: str):
             }
             db.PairErrors.insert_one(error_info)
 
+            ErrorData = credentials_data
+            ErrorData["subject"] = "Error occurred in CryptoCompare's Crawler"
+            ErrorData[
+                "body"
+            ] = f"""
+                    We encountered an error in the {error_info["filename"]} data crawler system. Please find the details below:
+
+                    - Filename: {error_info["filename"]}
+                    - Server: {server_name}
+                    - Error Time: {error_info["time"]}
+
+                    Error Details:
+
+                    {error_info["error"]}
+                    
+                    Please check the system and resolve the issue as soon as possible.
+                """
+
+            global last_mail
+            if datetime.datetime.now() >= last_mail + datetime.timedelta(minutes=30):
+                mailResponse = requests.post(mailurl, json=ErrorData)
+                # ErrorData["destination_email"] = "shiekh111aq@gmail.com"
+                # mailResponse = requests.post(mailurl, json=ErrorData)
+                last_mail = datetime.datetime.now()
+
         finally:
             time.sleep(12)
 
@@ -203,6 +231,24 @@ def odd_pairs():
     for pair in pair_list:
         GetAllExchanges(pair["pair_sym"])
 
+    mail_data = credentials_data
+    mail_data["sender_email"] = "badhai@catax.me"
+    mail_data["subject"] = (
+        "Badhai Ho!! aaj ka minutely crawler ka odd index pairs khatam.."
+    )
+    mail_data[
+        "body"
+    ] = f"""
+        Name: Minutely Odd Index
+        Server: {server_name}
+        Exchanges Completed: {pair_list}
+        Completed at: {time.strftime('%Y-%m-%d %H:%M:%S')}
+
+        Congratulations! The minutely crawler for odd index pairs has been completed successfully.
+    """
+
+    requests.post(mailurl, json=mail_data)
+
 
 def even_pairs():
     """Process even-indexed cryptocurrency pairs."""
@@ -213,6 +259,24 @@ def even_pairs():
     pair_list = pair_list[1:23:2]
     for pair in pair_list:
         GetAllExchanges(pair["pair_sym"])
+
+    mail_data = credentials_data
+    mail_data["sender_email"] = "badhai@catax.me"
+    mail_data["subject"] = (
+        "Badhai Ho!! aaj ka minutely crawler ka odd index pairs khatam.."
+    )
+    mail_data[
+        "body"
+    ] = f"""
+        Name: Minutely Odd Index
+        Server: {server_name}
+        Exchanges Completed: {pair_list}
+        Completed at: {time.strftime('%Y-%m-%d %H:%M:%S')}
+
+        Congratulations! The minutely crawler for odd index pairs has been completed successfully.
+    """
+
+    requests.post(mailurl, json=mail_data)
 
 
 def heartbeat():
