@@ -75,7 +75,7 @@ def insert_data_for_pair(pair, data):
     # Split data into chunks to prevent the batch from being too large
     for i in range(0, len(data), BATCH_SIZE_LIMIT):
         batch = BatchStatement(consistency_level=ConsistencyLevel.QUORUM)
-        chunk = data[i:i + BATCH_SIZE_LIMIT]  # Create a batch-sized chunk of data
+        chunk = data[i : i + BATCH_SIZE_LIMIT]  # Create a batch-sized chunk of data
 
         for record in chunk:
             timestamp = record["time"]
@@ -109,54 +109,78 @@ def fetch_hourly_data(fsym, tsym, to_timestamp):
     response = requests.get(url, params=params)
 
     if response.status_code == 200:
-        print(f"Fetched data for {fsym}/{tsym} until {datetime.utcfromtimestamp(to_timestamp).strftime('%Y-%m-%d %H:%M:%S')}.")
+        print(
+            f"Fetched data for {fsym}/{tsym} until {datetime.utcfromtimestamp(to_timestamp).strftime('%Y-%m-%d %H:%M:%S')}."
+        )
         return response.json()
     else:
-        print(f"Failed to fetch data for {fsym}/{tsym}: {response.status_code} - {response.text}")
+        print(
+            f"Failed to fetch data for {fsym}/{tsym}: {response.status_code} - {response.text}"
+        )
         return None
 
 
 # Function to handle API rate limits based on calls made
+import time
+
+
+# Function to handle API rate limits based on calls made with optimized sleep times
 def handle_rate_limits():
     global calls_made, last_call_time
 
     current_time = time.time()
-    elapsed_time = current_time - last_call_time
+    current_datetime = datetime.now()
 
-    # Update the call counters based on elapsed time
-    if elapsed_time >= 1:
-        calls_made["second"] = 0
-    if elapsed_time >= 60:
-        calls_made["minute"] = 0
-    if elapsed_time >= 3600:
-        calls_made["hour"] = 0
-    if elapsed_time >= 86400:
-        calls_made["day"] = 0
-    if elapsed_time >= 2592000:  # Approx. 30 days
-        calls_made["month"] = 0
-
-    # Check if we need to wait
-    if calls_made["second"] >= RATE_LIMITS["second"]:
-        print("Reached per-second limit. Sleeping for 1 second...")
-        time.sleep(1)
-        calls_made["second"] = 0  # Reset after sleeping
-
-    if calls_made["minute"] >= RATE_LIMITS["minute"]:
-        print("Reached per-minute limit. Sleeping for 60 seconds...")
-        time.sleep(60)
-        calls_made["minute"] = 0  # Reset after sleeping
-
-    if calls_made["hour"] >= RATE_LIMITS["hour"]:
-        print("Reached per-hour limit. Sleeping for 3600 seconds...")
-        time.sleep(3600)
-        calls_made["hour"] = 0  # Reset after sleeping
-
-    # Increment call counters
+    # Reset the call counters based on time passed since last call
     calls_made["second"] += 1
     calls_made["minute"] += 1
     calls_made["hour"] += 1
     calls_made["day"] += 1
     calls_made["month"] += 1
+
+    # Calculate time until the next second, minute, hour, and day
+    next_second = (current_datetime.second + 1) % 60
+    next_minute = (current_datetime.minute + 1) % 60
+    next_hour = (current_datetime.hour + 1) % 24
+    next_day = current_datetime.day + 1
+
+    # Calculate remaining time until the next reset
+    time_until_next_second = max(1 - (current_time % 1), 0)
+    time_until_next_minute = max(60 - current_datetime.second, 0)
+    time_until_next_hour = max(
+        3600 - (current_datetime.minute * 60 + current_datetime.second), 0
+    )
+    time_until_next_day = max(
+        86400
+        - (
+            current_datetime.hour * 3600
+            + current_datetime.minute * 60
+            + current_datetime.second
+        ),
+        0,
+    )
+
+    # Check the rate limits
+    if calls_made["second"] >= RATE_LIMITS["second"]:
+        print("Reached per-second limit. Sleeping until next second...")
+        time.sleep(time_until_next_second)
+        calls_made["second"] = 0  # Reset after sleeping
+
+    if calls_made["minute"] >= RATE_LIMITS["minute"]:
+        print("Reached per-minute limit. Sleeping until next minute...")
+        time.sleep(time_until_next_minute)
+        calls_made["minute"] = 0  # Reset after sleeping
+
+    if calls_made["hour"] >= RATE_LIMITS["hour"]:
+        print("Reached per-hour limit. Sleeping until next hour...")
+        time.sleep(time_until_next_hour)
+        calls_made["hour"] = 0  # Reset after sleeping
+
+    if calls_made["day"] >= RATE_LIMITS["day"]:
+        print("Reached per-day limit. Sleeping until next day...")
+        time.sleep(time_until_next_day)
+        calls_made["day"] = 0  # Reset after sleeping
+
     last_call_time = current_time  # Update last call time
 
 
