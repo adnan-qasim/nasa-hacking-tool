@@ -34,7 +34,7 @@ class ApiResponse(BaseModel):
 scheduler = BackgroundScheduler()
 
 
-@app.post("/fetch-data/", response_model=List[ApiResponse])
+@app.post("/schedule-data/", response_model=List[ApiResponse])
 def fetch_data(server_requests: List[ServerRequest]):
     responses = []
 
@@ -119,14 +119,14 @@ def ping_server():
         print(f"Error pinging server: {e}")
 
 
-scheduler.add_job(ping_server, "interval", seconds=5)
+scheduler.add_job(ping_server, "interval", minutes=3)
 scheduler.add_job(background_task, "interval", minutes=10)
 scheduler.start()
 
 
 @app.get("/")
 def health_check():
-    return {"message": "Pinged worker node"}
+    return {"message": "Pinged manager node"}
 
 
 @app.on_event("shutdown")
