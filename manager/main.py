@@ -87,8 +87,6 @@ def background_task():
                     "server_name": stuck_server["server_name"],
                     "start_index": stuck_server["start"],
                     "end_index": stuck_server["end"],
-                    "backup_server_url": stuck_server["current_server_url"],
-                    "current_server_url": stuck_server["backup_server_url"],
                     "is_backup": True,
                 },
             )
