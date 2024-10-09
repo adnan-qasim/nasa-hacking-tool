@@ -11,9 +11,18 @@ from pydantic import BaseModel
 from typing import Optional
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.triggers.date import DateTrigger
+from fastapi.middleware.cors import CORSMiddleware
 
 # FastAPI app
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Allow specific origins
+    allow_credentials=True,  # Allow credentials (like cookies)
+    allow_methods=["*"],  # Allow all HTTP methods
+    allow_headers=["*"],  # Allow all headers
+)
 
 # Scheduler
 scheduler = BackgroundScheduler()
@@ -233,7 +242,7 @@ def process_data(server_name, start_index, end_index):
         create_table_for_pair(pair)
 
         end_timestamp = start_timestamp if start_timestamp else int(time.time())
-        start_timestamp = int(datetime(2023, 1, 1).timestamp())
+        start_timestamp = int(datetime(2022, 1, 1).timestamp())
 
         while end_timestamp > start_timestamp:
             response_json = fetch_hourly_data(fsym, tsym, end_timestamp)
@@ -258,6 +267,11 @@ def process_data(server_name, start_index, end_index):
         {"server": server_name}, {"$set": {"status": "stopped"}}, upsert=True
     )
     print("Data fetching completed.")
+
+
+@app.get("/")
+def health_check():
+    return {"message": "Pinged worker node"}
 
 
 @app.post("/fetch_data")
