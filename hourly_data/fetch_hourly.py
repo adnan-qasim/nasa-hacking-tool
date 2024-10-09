@@ -19,14 +19,17 @@ session.execute(
     """
     CREATE KEYSPACE IF NOT EXISTS historical_krishna 
     WITH replication = {'class': 'SimpleStrategy', 'replication_factor': '1'};
-"""
+    """
 )
 session.set_keyspace("historical_krishna")
 
 # MongoDB connection
-client = MongoClient("mongodb://localhost:27017/")
+client = MongoClient(
+    "mongodb+srv://sniplyuser:NXy7R7wRskSrk3F2@cataxprod.iwac6oj.mongodb.net/?retryWrites=true&w=majority"
+)
 db = client["progress_tracker"]
 progress_collection = db["progress"]
+log_collection = db["logs"]  # Collection for logging completed pairs
 
 BATCH_SIZE_LIMIT = 50
 RATE_LIMITS = {
@@ -47,8 +50,9 @@ end_index = int(sys.argv[3]) if len(sys.argv) > 3 else None
 
 
 def create_table_for_pair(pair):
+    table_name = f"p_{pair}"  # Use the specified table format
     create_table_query = f"""
-    CREATE TABLE IF NOT EXISTS {pair} (
+    CREATE TABLE IF NOT EXISTS {table_name} (
         timestamp bigint PRIMARY KEY,
         datetime timestamp,
         high double,
@@ -64,8 +68,9 @@ def create_table_for_pair(pair):
 
 
 def insert_data_for_pair(pair, data):
+    table_name = f"p_{pair}"  # Use the specified table format
     insert_query = f"""
-    INSERT INTO {pair} (timestamp, datetime, high, low, open, volumefrom, volumeto, close)
+    INSERT INTO {table_name} (timestamp, datetime, high, low, open, volumefrom, volumeto, close)
     VALUES (?, ?, ?, ?, ?, ?, ?, ?);
     """
     prepared_stmt = session.prepare(insert_query)
@@ -89,7 +94,7 @@ def insert_data_for_pair(pair, data):
             )
 
         session.execute(batch)
-        print(f"Inserted {len(chunk)} records into {pair}.")
+        print(f"Inserted {len(chunk)} records into {table_name}.")
 
 
 def fetch_hourly_data(fsym, tsym, to_timestamp):
@@ -168,8 +173,30 @@ def save_progress(pair, timestamp, pair_index):
     print(f"Progress saved: {pair}, timestamp: {timestamp}, pair_index: {pair_index}")
 
 
+def log_completed_pair(pair, timestamp):
+    # Count the number of records inserted for the completed pair
+    table_name = f"p_{pair}"
+    count_query = f"SELECT COUNT(*) FROM {table_name};"
+    count_result = session.execute(count_query)
+    count = count_result[0][0]  # Get the count from the result
+
+    log_data = {
+        "server": server_name,
+        "pair": pair,
+        "last_timestamp": timestamp,
+        "record_count": count,  # Store the count of inserted records
+        "completed_at": datetime.now(),
+    }
+    log_collection.insert_one(log_data)
+    print(
+        f"Logged completed pair: {pair} with timestamp: {timestamp}, record count: {count}"
+    )
+
+
 def load_progress():
-    return progress_collection.find_one({"server": server_name}, sort=[("last_saved", -1)])
+    return progress_collection.find_one(
+        {"server": server_name}, sort=[("last_saved", -1)]
+    )
 
 
 def main():
@@ -208,6 +235,7 @@ def main():
             end_timestamp = data[0]["time"]
 
             save_progress(pair, end_timestamp, index)
+            log_completed_pair(pair, end_timestamp)  # Log the completed pair
             handle_rate_limits()
 
         start_timestamp = None  # Reset for the next pair
