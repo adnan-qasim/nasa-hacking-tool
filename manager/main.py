@@ -42,9 +42,9 @@ def fetch_data(server_requests: List[ServerRequest]):
         time.sleep(30)
         try:
             # Make synchronous API call to the external API for each server in the list
-            api_response = requests.get(
+            api_response = requests.post(
                 request.current_server_url,
-                params={
+                data={
                     "server_name": request.server_name,
                     "start_index": request.start,
                     "end_index": request.end,
@@ -60,6 +60,7 @@ def fetch_data(server_requests: List[ServerRequest]):
                     )
                 )
             else:
+                print(re)
                 responses.append(
                     ApiResponse(
                         server_name=request.server_name,
