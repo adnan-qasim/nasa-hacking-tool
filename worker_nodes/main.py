@@ -49,7 +49,8 @@ client = MongoClient(
 )
 db = client["progress_tracker"]
 progress_collection = db["progress"]
-log_collection = db["logs"]  # Collection for logging completed pairs
+log_collection = db["logs"]
+stuck_collection = db["stuck"]
 
 BATCH_SIZE_LIMIT = 50
 RATE_LIMITS = {
@@ -69,6 +70,7 @@ class RequestBody(BaseModel):
     server_name: str
     start_index: Optional[int] = 0
     end_index: Optional[int] = None
+    backup_server: Optional[str] = None
 
 
 def create_table_for_pair(pair):
@@ -139,7 +141,7 @@ def fetch_hourly_data(fsym, tsym, to_timestamp):
         return None
 
 
-def handle_rate_limits():
+def handle_rate_limits(pair, server_name, pair_index, end_index, backup_server):
     global calls_made, last_call_time
     current_time = time.time()
     current_datetime = datetime.now()
@@ -173,9 +175,18 @@ def handle_rate_limits():
         calls_made["hour"] = 0
 
     if calls_made["day"] >= RATE_LIMITS["day"]:
-        print("Rate limit reached for day. Sleeping...")
-        time.sleep(time_until_next_day)
-        calls_made["day"] = 0
+        data_to_insert = {
+            "backup_server": backup_server,
+            "server": server_name,
+            "pair": pair,
+            "timestamp": current_time,
+            "pair_index": pair_index,
+            "end_index": end_index,
+            "time_until_next_day": time_until_next_day,
+            "status": "stuck",
+        }
+        stuck_collection.insert_one(data_to_insert)
+        exit(1)
 
     last_call_time = current_time
 
@@ -221,7 +232,7 @@ def load_progress(server_name):
     )
 
 
-def process_data(server_name, start_index, end_index):
+def process_data(server_name, start_index, end_index, backup_server):
     with open("sorted_pair_exchanges.json", "r") as f:
         pairs_data = json.load(f)
 
@@ -258,7 +269,7 @@ def process_data(server_name, start_index, end_index):
 
             save_progress(pair, end_timestamp, index, server_name)
             log_completed_pair(pair, end_timestamp, server_name)
-            handle_rate_limits()
+            handle_rate_limits(pair, server_name, pair_index, end_index, backup_server)
 
         start_timestamp = None  # Reset for the next pair
 
@@ -287,6 +298,7 @@ async def fetch_data(request_body: RequestBody):
             request_body.server_name,
             request_body.start_index,
             request_body.end_index,
+            request_body.backup_server,
         ],
         id=f"fetch_data_{request_body.server_name}",
         replace_existing=True,  # If the job exists, replace it
