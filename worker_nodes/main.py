@@ -6,12 +6,18 @@ from cassandra.query import BatchStatement
 from cassandra import ConsistencyLevel
 from pymongo import MongoClient
 import json
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from typing import Optional
+from apscheduler.schedulers.background import BackgroundScheduler
+from apscheduler.triggers.date import DateTrigger
 
 # FastAPI app
 app = FastAPI()
+
+# Scheduler
+scheduler = BackgroundScheduler()
+scheduler.start()
 
 # Cassandra connection
 cluster = Cluster(
@@ -256,7 +262,20 @@ def process_data(server_name, start_index, end_index):
 
 @app.post("/fetch_data")
 async def fetch_data(request_body: RequestBody):
-    process_data(
-        request_body.server_name, request_body.start_index, request_body.end_index
+    if request_body.start_index is None:
+        raise HTTPException(status_code=400, detail="start_index is required")
+
+    # Schedule the task using APScheduler
+    scheduler.add_job(
+        process_data,
+        trigger=DateTrigger(run_date=datetime.now()),  # Immediate execution
+        args=[
+            request_body.server_name,
+            request_body.start_index,
+            request_body.end_index,
+        ],
+        id=f"fetch_data_{request_body.server_name}",
+        replace_existing=True,  # If the job exists, replace it
     )
-    return {"status": "Data fetching started."}
+
+    return {"status": "Data fetching job scheduled in the background."}
