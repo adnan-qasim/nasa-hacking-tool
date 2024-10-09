@@ -70,7 +70,9 @@ class RequestBody(BaseModel):
     server_name: str
     start_index: Optional[int] = 0
     end_index: Optional[int] = None
-    backup_server: Optional[str] = None
+    backup_server_url: Optional[str] = None
+    current_server_url: Optional[str] = None
+    is_backup: Optional[bool] = False
 
 
 def create_table_for_pair(pair):
@@ -141,7 +143,15 @@ def fetch_hourly_data(fsym, tsym, to_timestamp):
         return None
 
 
-def handle_rate_limits(pair, server_name, pair_index, end_index, backup_server):
+def handle_rate_limits(
+    pair,
+    server_name,
+    pair_index,
+    end_index,
+    backup_server_url,
+    current_server_url,
+    is_backup,
+):
     global calls_made, last_call_time
     current_time = time.time()
     current_datetime = datetime.now()
@@ -176,7 +186,8 @@ def handle_rate_limits(pair, server_name, pair_index, end_index, backup_server):
 
     if calls_made["day"] >= RATE_LIMITS["day"]:
         data_to_insert = {
-            "backup_server": backup_server,
+            "backup_server_url": backup_server_url,
+            "current_server_url": current_server_url,
             "server": server_name,
             "pair": pair,
             "timestamp": current_time,
@@ -186,7 +197,12 @@ def handle_rate_limits(pair, server_name, pair_index, end_index, backup_server):
             "status": "stuck",
         }
         stuck_collection.insert_one(data_to_insert)
-        exit(1)
+        if is_backup:
+            exit(1)
+        else:
+            print("Rate limit reached for day. Sleeping...")
+            time.sleep(time_until_next_day)
+            calls_made["day"] = 0
 
     last_call_time = current_time
 
@@ -232,7 +248,14 @@ def load_progress(server_name):
     )
 
 
-def process_data(server_name, start_index, end_index, backup_server):
+def process_data(
+    server_name,
+    start_index,
+    end_index,
+    backup_server_url,
+    current_server_url,
+    is_backup,
+):
     with open("sorted_pair_exchanges.json", "r") as f:
         pairs_data = json.load(f)
 
@@ -269,7 +292,15 @@ def process_data(server_name, start_index, end_index, backup_server):
 
             save_progress(pair, end_timestamp, index, server_name)
             log_completed_pair(pair, end_timestamp, server_name)
-            handle_rate_limits(pair, server_name, pair_index, end_index, backup_server)
+            handle_rate_limits(
+                pair,
+                server_name,
+                pair_index,
+                end_index,
+                backup_server_url,
+                current_server_url,
+                is_backup,
+            )
 
         start_timestamp = None  # Reset for the next pair
 
@@ -298,7 +329,9 @@ async def fetch_data(request_body: RequestBody):
             request_body.server_name,
             request_body.start_index,
             request_body.end_index,
-            request_body.backup_server,
+            request_body.backup_server_url,
+            request_body.current_server_url,
+            request_body.is_backup,
         ],
         id=f"fetch_data_{request_body.server_name}",
         replace_existing=True,  # If the job exists, replace it
