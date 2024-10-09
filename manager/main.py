@@ -19,8 +19,8 @@ stuck_collection = db["stuck"]
 class ServerRequest(BaseModel):
     current_server_url: str
     server_name: str
-    start: str
-    end: str
+    start: int
+    end: int
     backup_server_url: Optional[str] = None
 
 
