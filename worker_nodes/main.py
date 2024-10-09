@@ -6,7 +6,12 @@ from cassandra.query import BatchStatement
 from cassandra import ConsistencyLevel
 from pymongo import MongoClient
 import json
-import sys
+from fastapi import FastAPI
+from pydantic import BaseModel
+from typing import Optional
+
+# FastAPI app
+app = FastAPI()
 
 # Cassandra connection
 cluster = Cluster(
@@ -43,10 +48,12 @@ RATE_LIMITS = {
 calls_made = {"second": 0, "minute": 0, "hour": 0, "day": 0, "month": 0}
 last_call_time = time.time()
 
-# Command-line argument for server name
-server_name = sys.argv[1] if len(sys.argv) > 1 else "server_1"
-start_index = int(sys.argv[2]) if len(sys.argv) > 2 else 0
-end_index = int(sys.argv[3]) if len(sys.argv) > 3 else None
+
+# Define request body schema
+class RequestBody(BaseModel):
+    server_name: str
+    start_index: Optional[int] = 0
+    end_index: Optional[int] = None
 
 
 def create_table_for_pair(pair):
@@ -158,7 +165,7 @@ def handle_rate_limits():
     last_call_time = current_time
 
 
-def save_progress(pair, timestamp, pair_index):
+def save_progress(pair, timestamp, pair_index, server_name):
     progress_data = {
         "server": server_name,
         "status": "running",
@@ -173,7 +180,7 @@ def save_progress(pair, timestamp, pair_index):
     print(f"Progress saved: {pair}, timestamp: {timestamp}, pair_index: {pair_index}")
 
 
-def log_completed_pair(pair, timestamp):
+def log_completed_pair(pair, timestamp, server_name):
     # Count the number of records inserted for the completed pair
     table_name = f"p_{pair}"
     count_query = f"SELECT COUNT(*) FROM {table_name};"
@@ -193,17 +200,17 @@ def log_completed_pair(pair, timestamp):
     )
 
 
-def load_progress():
+def load_progress(server_name):
     return progress_collection.find_one(
         {"server": server_name}, sort=[("last_saved", -1)]
     )
 
 
-def main():
+def process_data(server_name, start_index, end_index):
     with open("sorted_pair_exchanges.json", "r") as f:
         pairs_data = json.load(f)
 
-    progress = load_progress()
+    progress = load_progress(server_name)
     start_pair = progress["pair"] if progress else None
     start_timestamp = progress["timestamp"] if progress else None
     pair_index = progress["pair_index"] if progress else start_index
@@ -234,8 +241,8 @@ def main():
             insert_data_for_pair(pair, data)
             end_timestamp = data[0]["time"]
 
-            save_progress(pair, end_timestamp, index)
-            log_completed_pair(pair, end_timestamp)  # Log the completed pair
+            save_progress(pair, end_timestamp, index, server_name)
+            log_completed_pair(pair, end_timestamp, server_name)
             handle_rate_limits()
 
         start_timestamp = None  # Reset for the next pair
@@ -247,5 +254,9 @@ def main():
     print("Data fetching completed.")
 
 
-if __name__ == "__main__":
-    main()
+@app.post("/fetch_data")
+async def fetch_data(request_body: RequestBody):
+    process_data(
+        request_body.server_name, request_body.start_index, request_body.end_index
+    )
+    return {"status": "Data fetching started."}
