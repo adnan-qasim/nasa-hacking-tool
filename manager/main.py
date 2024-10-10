@@ -82,9 +82,9 @@ def background_task():
     for stuck_server in all_stuck_servers:
         # Make a request to the external API to check if the server is back online
         try:
-            response = requests.get(
+            response = requests.post(
                 stuck_server["backup_server_url"],
-                params={
+                json={
                     "server_name": stuck_server["server_name"],
                     "start_index": stuck_server["start"],
                     "end_index": stuck_server["end"],
