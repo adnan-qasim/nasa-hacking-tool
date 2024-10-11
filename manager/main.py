@@ -118,7 +118,7 @@ def ping_server():
         print(f"Error pinging server: {e}")
 
 
-scheduler.add_job(ping_server, "interval", minutes=3)
+scheduler.add_job(ping_server, "interval", minutes=10)
 scheduler.add_job(background_task, "interval", minutes=10)
 scheduler.start()
 
