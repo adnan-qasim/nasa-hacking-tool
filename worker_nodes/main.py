@@ -1,6 +1,5 @@
 import requests
 import time
-import gc
 from datetime import datetime
 from cassandra.cluster import Cluster
 from cassandra.query import BatchStatement
@@ -31,7 +30,7 @@ app.add_middleware(
 scheduler = BackgroundScheduler()
 scheduler.start()
 
-# MongoDB connection (Use environment variables or a configuration file for sensitive data)
+# MongoDB connection
 client = MongoClient(
     "mongodb+srv://sniplyuser:NXy7R7wRskSrk3F2@cataxprod.iwac6oj.mongodb.net/?retryWrites=true&w=majority"
 )
@@ -40,8 +39,8 @@ progress_collection = db["progress"]
 log_collection = db["logs"]
 stuck_collection = db["stuck"]
 
-# Optimized Batch size and rate limits
-BATCH_SIZE_LIMIT = 40  # Reduced batch size for memory efficiency
+# Batch size and rate limits
+BATCH_SIZE_LIMIT = 50
 RATE_LIMITS = {
     "second": 20,
     "minute": 300,
@@ -65,16 +64,18 @@ class RequestBody(BaseModel):
     is_backup: Optional[bool] = False
 
 
-# Cassandra connection initialization with retry logic
 def initialize_cassandra():
     retry_attempts = 5
     delay = 20  # seconds
     for attempt in range(retry_attempts):
         try:
+            # Initialize the Cluster without the 'retry_policy' argument
             cluster = Cluster(
                 ["164.52.214.75"], connect_timeout=60, control_connection_timeout=60
             )
+
             session = cluster.connect()
+
             session.execute(
                 """
                 CREATE KEYSPACE IF NOT EXISTS historical_krishna 
@@ -84,6 +85,7 @@ def initialize_cassandra():
             session.set_keyspace("historical_krishna")
             print("Connected to Cassandra successfully")
             return session
+
         except (OperationTimedOut, NoHostAvailable) as e:
             print(f"Cassandra connection failed on attempt {attempt + 1}: {e}")
             time.sleep(delay)
@@ -91,7 +93,7 @@ def initialize_cassandra():
     raise Exception("Cassandra connection failed.")
 
 
-# Function to reset API usage counts with efficient scheduling
+# Function to reset API usage counts
 def reset_api_usage():
     scheduler.add_job(lambda: reset_counters("minute"), "cron", minute="*")
     scheduler.add_job(lambda: reset_counters("hour"), "cron", hour="*")
@@ -108,16 +110,9 @@ def reset_counters(period):
 reset_api_usage()
 
 
-# Use generators for processing large datasets
-def data_generator(data):
-    for record in data:
-        yield record
-
-
-# Create table for pair with retry mechanism
 def create_table_for_pair(pair):
     session = initialize_cassandra()
-    table_name = f"p_{pair}"
+    table_name = f"p_{pair}"  # Table format for storing data
     create_table_query = f"""
     CREATE TABLE IF NOT EXISTS {table_name} (
         timestamp bigint PRIMARY KEY,
@@ -145,21 +140,18 @@ def create_table_for_pair(pair):
     raise Exception(f"Table creation failed for {table_name}")
 
 
-# Optimized insert function for batch data insertion
 def insert_data_for_pair(pair, data):
     session = initialize_cassandra()
-    table_name = f"p_{pair}"
+    table_name = f"p_{pair}"  # Table format for data insertion
     insert_query = f"""
     INSERT INTO {table_name} (timestamp, datetime, high, low, open, volumefrom, volumeto, close)
     VALUES (?, ?, ?, ?, ?, ?, ?, ?);
     """
     prepared_stmt = session.prepare(insert_query)
 
-    # Use generators to process data in small chunks
-    data_gen = data_generator(data)
-
-    for chunk in data_gen:
+    for i in range(0, len(data), BATCH_SIZE_LIMIT):
         batch = BatchStatement(consistency_level=ConsistencyLevel.QUORUM)
+        chunk = data[i : i + BATCH_SIZE_LIMIT]
         for record in chunk:
             timestamp = record["time"]
             dt = datetime.utcfromtimestamp(timestamp)
@@ -179,7 +171,7 @@ def insert_data_for_pair(pair, data):
         for attempt in range(retry_attempts):
             try:
                 session.execute(batch)
-                print(f"Inserted batch into {table_name}.")
+                print(f"Inserted {len(chunk)} records into {table_name}.")
                 break
             except (OperationTimedOut, NoHostAvailable) as e:
                 print(
@@ -187,21 +179,23 @@ def insert_data_for_pair(pair, data):
                 )
                 time.sleep(delay)
         else:
+            # After all retries, log the stuck data for later processing
             print(f"Failed to insert batch into {table_name} after multiple attempts.")
-            # Log stuck data
-            stuck_collection.insert_one(
-                {
-                    "server": "current_server_url",
-                    "pair": pair,
-                    "timestamp": time.time(),
-                    "data_chunk": chunk,
-                    "status": "stuck",
-                }
-            )
+            data_to_insert = {
+                "backup_server_url": current_server_url,
+                "current_server_url": current_server_url,
+                "server": server_name,
+                "pair": pair,
+                "timestamp": time.time(),
+                "pair_index": pair_index,
+                "end_index": end_index,
+                "data_chunk": chunk,
+                "status": "stuck",
+            }
+            stuck_collection.insert_one(data_to_insert)
     session.shutdown()
 
 
-# Fetch hourly data with optimized request handling
 def fetch_hourly_data(fsym, tsym, to_timestamp):
     url = "https://min-api.cryptocompare.com/data/v2/histohour"
     params = {
@@ -212,6 +206,7 @@ def fetch_hourly_data(fsym, tsym, to_timestamp):
         "e": "CCCAGG",
     }
     response = requests.get(url, params=params)
+
     if response.status_code == 200:
         print(f"Fetched hourly data for {fsym}/{tsym}")
         return response.json()
@@ -222,7 +217,6 @@ def fetch_hourly_data(fsym, tsym, to_timestamp):
         return None
 
 
-# Rate limit handling with optimizations
 def handle_rate_limits(
     pair,
     server_name,
@@ -266,16 +260,18 @@ def handle_rate_limits(
 
     if calls_made["day"] >= RATE_LIMITS["day"]:
         print("Rate limit reached for day. Logging and sleeping...")
-        stuck_collection.insert_one(
-            {
-                "server": server_name,
-                "pair": pair,
-                "timestamp": current_time,
-                "pair_index": pair_index,
-                "end_index": end_index,
-                "status": "stuck",
-            }
-        )
+        data_to_insert = {
+            "backup_server_url": backup_server_url,
+            "current_server_url": current_server_url,
+            "server": server_name,
+            "pair": pair,
+            "timestamp": current_time,
+            "pair_index": pair_index,
+            "end_index": end_index,
+            "time_until_next_day": time_until_next_day,
+            "status": "stuck",
+        }
+        stuck_collection.insert_one(data_to_insert)
         if is_backup:
             print("Backup server reached daily rate limit. Exiting...")
             exit(1)
@@ -286,12 +282,6 @@ def handle_rate_limits(
     last_call_time = current_time
 
 
-# Clean up memory after each operation
-def gc_collect():
-    gc.collect()
-
-
-# Optimize progress and logging with MongoDB updates
 def save_progress(pair, timestamp, pair_index, server_name):
     progress_data = {
         "server": server_name,
@@ -310,8 +300,9 @@ def save_progress(pair, timestamp, pair_index, server_name):
 def log_completed_pair(pair, timestamp, server_name):
     session = initialize_cassandra()
     table_name = f"p_{pair}"
+    count_query = f"SELECT COUNT(*) FROM {table_name};"
     try:
-        count_result = session.execute(f"SELECT COUNT(*) FROM {table_name};")
+        count_result = session.execute(count_query)
         count = count_result[0][0]  # Get the count from the result
     except (OperationTimedOut, NoHostAvailable):
         count = "Unknown"
@@ -328,6 +319,7 @@ def log_completed_pair(pair, timestamp, server_name):
     print(
         f"Logged completed pair: {pair} with timestamp: {timestamp}, record count: {count}"
     )
+
 
 def load_progress(server_name):
     return progress_collection.find_one(
@@ -402,6 +394,7 @@ def process_data(
     )
     print("Data fetching completed.")
 
+
 @app.get("/")
 def health_check():
     return {"message": "Pinged worker node"}
@@ -412,6 +405,7 @@ async def fetch_data(request_body: RequestBody):
     if request_body.start_index is None:
         raise HTTPException(status_code=400, detail="start_index is required")
 
+    # Schedule the task using APScheduler
     scheduler.add_job(
         process_data,
         trigger=DateTrigger(run_date=datetime.now()),
@@ -426,5 +420,6 @@ async def fetch_data(request_body: RequestBody):
         id=f"fetch_data_{request_body.server_name}",
         replace_existing=True,
     )
+
     print(f"Data fetching job scheduled for server: {request_body.server_name}")
     return {"status": "Data fetching job scheduled in the background."}
