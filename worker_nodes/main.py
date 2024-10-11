@@ -93,6 +93,9 @@ def initialize_cassandra():
     raise Exception("Cassandra connection failed.")
 
 
+session = initialize_cassandra()
+
+
 # Function to reset API usage counts
 def reset_api_usage():
     scheduler.add_job(lambda: reset_counters("hour"), "cron", hour="*")
@@ -110,7 +113,6 @@ reset_api_usage()
 
 
 def create_table_for_pair(pair):
-    session = initialize_cassandra()
     table_name = f"p_{pair}"  # Table format for storing data
     create_table_query = f"""
     CREATE TABLE IF NOT EXISTS {table_name} (
@@ -130,7 +132,6 @@ def create_table_for_pair(pair):
         try:
             session.execute(create_table_query)
             print(f"Table created (or already exists) for pair: {pair}")
-            session.shutdown()
             return
         except (OperationTimedOut, NoHostAvailable) as e:
             print(f"Failed to create table {table_name} on attempt {attempt + 1}: {e}")
@@ -140,7 +141,6 @@ def create_table_for_pair(pair):
 
 
 def insert_data_for_pair(pair, data):
-    session = initialize_cassandra()
     table_name = f"p_{pair}"  # Table format for data insertion
     insert_query = f"""
     INSERT INTO {table_name} (timestamp, datetime, high, low, open, volumefrom, volumeto, close)
@@ -192,7 +192,6 @@ def insert_data_for_pair(pair, data):
                 "status": "stuck",
             }
             stuck_collection.insert_one(data_to_insert)
-    session.shutdown()
 
 
 def fetch_hourly_data(fsym, tsym, to_timestamp):
@@ -297,7 +296,6 @@ def save_progress(pair, timestamp, pair_index, server_name):
 
 
 def log_completed_pair(pair, timestamp, server_name):
-    session = initialize_cassandra()
     table_name = f"p_{pair}"
     count_query = f"SELECT COUNT(*) FROM {table_name};"
     try:
@@ -314,7 +312,6 @@ def log_completed_pair(pair, timestamp, server_name):
         "completed_at": datetime.now(),
     }
     log_collection.insert_one(log_data)
-    session.shutdown()
     print(
         f"Logged completed pair: {pair} with timestamp: {timestamp}, record count: {count}"
     )
