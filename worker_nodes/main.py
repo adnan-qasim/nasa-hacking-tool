@@ -40,7 +40,7 @@ log_collection = db["logs"]
 stuck_collection = db["stuck"]
 
 # Batch size and rate limits
-BATCH_SIZE_LIMIT = 40
+BATCH_SIZE_LIMIT = 20
 RATE_LIMITS = {
     "second": 20,
     "minute": 300,
@@ -140,7 +140,15 @@ def create_table_for_pair(pair):
     raise Exception(f"Table creation failed for {table_name}")
 
 
-def insert_data_for_pair(pair, data):
+def insert_data_for_pair(
+    pair,
+    data,
+    backup_server_url,
+    current_server_url,
+    server_name,
+    start_index,
+    end_index,
+):
     table_name = f"p_{pair}"  # Table format for data insertion
     insert_query = f"""
     INSERT INTO {table_name} (timestamp, datetime, high, low, open, volumefrom, volumeto, close)
@@ -166,7 +174,7 @@ def insert_data_for_pair(pair, data):
                 (timestamp, dt, high, low, open_val, volumefrom, volumeto, close),
             )
         retry_attempts = 5
-        delay = 5  # seconds
+        delay = 20  # seconds
         for attempt in range(retry_attempts):
             try:
                 session.execute(batch)
@@ -186,7 +194,7 @@ def insert_data_for_pair(pair, data):
                 "server": server_name,
                 "pair": pair,
                 "timestamp": time.time(),
-                "pair_index": pair_index,
+                "pair_index": start_index,
                 "end_index": end_index,
                 "data_chunk": chunk,
                 "status": "stuck",
@@ -367,7 +375,15 @@ def process_data(
             if not data:
                 break
 
-            insert_data_for_pair(pair, data)
+            insert_data_for_pair(
+                pair,
+                data,
+                backup_server_url,
+                current_server_url,
+                server_name,
+                start_index,
+                end_index,
+            )
             end_timestamp = data[0]["time"]
 
             save_progress(pair, end_timestamp, index, server_name)
