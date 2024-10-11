@@ -95,7 +95,6 @@ def initialize_cassandra():
 
 # Function to reset API usage counts
 def reset_api_usage():
-    scheduler.add_job(lambda: reset_counters("minute"), "cron", minute="*")
     scheduler.add_job(lambda: reset_counters("hour"), "cron", hour="*")
     scheduler.add_job(lambda: reset_counters("day"), "cron", day="*")
 
