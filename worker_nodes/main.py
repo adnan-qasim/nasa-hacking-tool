@@ -53,6 +53,7 @@ RATE_LIMITS = {
 calls_made = {"second": 0, "minute": 0, "hour": 0, "day": 0, "month": 0}
 last_call_time = time.time()
 
+
 # Define request schema
 class RequestBody(BaseModel):
     server_name: str
@@ -62,18 +63,17 @@ class RequestBody(BaseModel):
     current_server_url: Optional[str] = None
     is_backup: Optional[bool] = False
 
+
 def initialize_cassandra():
     retry_attempts = 5
-    delay = 5  # seconds
+    delay = 20  # seconds
     for attempt in range(retry_attempts):
         try:
             # Initialize the Cluster without the 'retry_policy' argument
             cluster = Cluster(
-                ["164.52.214.75"],
-                connect_timeout=60,
-                control_connection_timeout=60
+                ["164.52.214.75"], connect_timeout=60, control_connection_timeout=60
             )
-            
+
             session = cluster.connect()
 
             session.execute(
@@ -85,29 +85,33 @@ def initialize_cassandra():
             session.set_keyspace("historical_krishna2")
             print("Connected to Cassandra successfully")
             return session
-        
+
         except (OperationTimedOut, NoHostAvailable) as e:
             print(f"Cassandra connection failed on attempt {attempt + 1}: {e}")
             time.sleep(delay)
     print("Failed to connect to Cassandra after multiple attempts.")
     raise Exception("Cassandra connection failed.")
 
+
 session = initialize_cassandra()
+
 
 # Function to reset API usage counts
 def reset_api_usage():
-    scheduler.add_job(lambda: reset_counters("second"), "cron", second=0)
-    scheduler.add_job(lambda: reset_counters("minute"), "cron", minute=0, second=0)
-    scheduler.add_job(lambda: reset_counters("hour"), "cron", hour=0, minute=0, second=0)
-    scheduler.add_job(lambda: reset_counters("day"), "cron", day="*", hour=0, minute=0, second=0)
+    scheduler.add_job(lambda: reset_counters("minute"), "cron", minute="*")
+    scheduler.add_job(lambda: reset_counters("hour"), "cron", hour="*")
+    scheduler.add_job(lambda: reset_counters("day"), "cron", day="*")
+
 
 def reset_counters(period):
     if period in calls_made:
         calls_made[period] = 0
         print(f"Reset {period} counter to 0")
 
+
 # Schedule rate limit resets
 reset_api_usage()
+
 
 def create_table_for_pair(pair):
     table_name = f"p_{pair}"  # Table format for storing data
@@ -135,6 +139,7 @@ def create_table_for_pair(pair):
             time.sleep(delay)
     print(f"Failed to create table {table_name} after multiple attempts.")
     raise Exception(f"Table creation failed for {table_name}")
+
 
 def insert_data_for_pair(pair, data):
     table_name = f"p_{pair}"  # Table format for data insertion
@@ -169,7 +174,9 @@ def insert_data_for_pair(pair, data):
                 print(f"Inserted {len(chunk)} records into {table_name}.")
                 break
             except (OperationTimedOut, NoHostAvailable) as e:
-                print(f"Failed to insert batch into {table_name} on attempt {attempt + 1}: {e}")
+                print(
+                    f"Failed to insert batch into {table_name} on attempt {attempt + 1}: {e}"
+                )
                 time.sleep(delay)
         else:
             # After all retries, log the stuck data for later processing
@@ -187,6 +194,7 @@ def insert_data_for_pair(pair, data):
             }
             stuck_collection.insert_one(data_to_insert)
 
+
 def fetch_hourly_data(fsym, tsym, to_timestamp):
     url = "https://min-api.cryptocompare.com/data/v2/histohour"
     params = {
@@ -202,8 +210,11 @@ def fetch_hourly_data(fsym, tsym, to_timestamp):
         print(f"Fetched hourly data for {fsym}/{tsym}")
         return response.json()
     else:
-        print(f"Error fetching data for {fsym}/{tsym}: {response.status_code} - {response.text}")
+        print(
+            f"Error fetching data for {fsym}/{tsym}: {response.status_code} - {response.text}"
+        )
         return None
+
 
 def handle_rate_limits(
     pair,
@@ -269,6 +280,7 @@ def handle_rate_limits(
 
     last_call_time = current_time
 
+
 def save_progress(pair, timestamp, pair_index, server_name):
     progress_data = {
         "server": server_name,
@@ -282,6 +294,7 @@ def save_progress(pair, timestamp, pair_index, server_name):
         {"server": server_name}, {"$set": progress_data}, upsert=True
     )
     print(f"Progress saved: {pair}, timestamp: {timestamp}, pair_index: {pair_index}")
+
 
 def log_completed_pair(pair, timestamp, server_name):
     table_name = f"p_{pair}"
@@ -300,12 +313,16 @@ def log_completed_pair(pair, timestamp, server_name):
         "completed_at": datetime.now(),
     }
     log_collection.insert_one(log_data)
-    print(f"Logged completed pair: {pair} with timestamp: {timestamp}, record count: {count}")
+    print(
+        f"Logged completed pair: {pair} with timestamp: {timestamp}, record count: {count}"
+    )
+
 
 def load_progress(server_name):
     return progress_collection.find_one(
         {"server": server_name}, sort=[("last_saved", -1)]
     )
+
 
 def process_data(
     server_name,
@@ -328,7 +345,9 @@ def process_data(
     start_timestamp = progress["timestamp"] if progress else None
     pair_index = progress["pair_index"] if progress else start_index
 
-    print(f"Resuming from: {start_pair}, Timestamp: {start_timestamp}, Index: {pair_index} (Server: {server_name})")
+    print(
+        f"Resuming from: {start_pair}, Timestamp: {start_timestamp}, Index: {pair_index} (Server: {server_name})"
+    )
 
     for index, (pair, exchanges) in enumerate(pairs_data.items()):
         if index < pair_index or (end_index is not None and index > end_index):
@@ -372,9 +391,11 @@ def process_data(
     )
     print("Data fetching completed.")
 
+
 @app.get("/")
 def health_check():
     return {"message": "Pinged worker node"}
+
 
 @app.post("/fetch_data")
 async def fetch_data(request_body: RequestBody):
