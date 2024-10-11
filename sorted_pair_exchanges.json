@@ -23,6 +23,37 @@
         "wazirx",
         "xtpub"
     ],
+    "cfx_usdt": [
+        "Bibox",
+        "Binance",
+        "bingx",
+        "bitget",
+        "BitMart",
+        "bitrue",
+        "bydfi",
+        "CoinEx",
+        "coinw",
+        "DigiFinex",
+        "Gateio",
+        "HitBTC",
+        "Kucoin",
+        "LAToken",
+        "LBank",
+        "mexc",
+        "nominex",
+        "OKEX",
+        "phemex",
+        "probit",
+        "wazirx",
+        "xtpub"
+    ],
+    "perp_inr": [
+        "coindcx",
+        "wazirx"
+    ],
+    "ravencoinc_usdt": [
+        "Gateio"
+    ],
     "badger_usdt": [
         "bilaxy",
         "Binance",
