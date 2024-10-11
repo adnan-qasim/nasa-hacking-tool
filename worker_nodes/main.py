@@ -40,7 +40,7 @@ log_collection = db["logs"]
 stuck_collection = db["stuck"]
 
 # Batch size and rate limits
-BATCH_SIZE_LIMIT = 50
+BATCH_SIZE_LIMIT = 40
 RATE_LIMITS = {
     "second": 20,
     "minute": 300,
