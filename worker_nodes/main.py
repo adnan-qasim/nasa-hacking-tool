@@ -32,7 +32,7 @@ scheduler.start()
 
 # MongoDB connection
 client = MongoClient(
-    "mongodb+srv://parth01:parth123@cluster0.77are8z.mongodb.net/?retryWrites=true&w=majority"
+    "mongodb+srv://sniplyuser:NXy7R7wRskSrk3F2@cataxprod.iwac6oj.mongodb.net/?retryWrites=true&w=majority"
 )
 db = client["progress_tracker"]
 progress_collection = db["progress"]
@@ -78,11 +78,11 @@ def initialize_cassandra():
 
             session.execute(
                 """
-                CREATE KEYSPACE IF NOT EXISTS historical_krishna2 
+                CREATE KEYSPACE IF NOT EXISTS historical_krishna 
                 WITH replication = {'class': 'SimpleStrategy', 'replication_factor': '1'};
                 """
             )
-            session.set_keyspace("historical_krishna2")
+            session.set_keyspace("historical_krishna")
             print("Connected to Cassandra successfully")
             return session
 
