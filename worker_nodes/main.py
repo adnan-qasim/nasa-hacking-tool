@@ -356,6 +356,9 @@ def process_data(
         f"Resuming from: {start_pair}, Timestamp: {start_timestamp}, Index: {pair_index} (Server: {server_name})"
     )
 
+    # Counter to track the number of hours processed
+    hours_processed = 0
+
     for index, (pair, exchanges) in enumerate(pairs_data.items()):
         if index < pair_index or (end_index is not None and index > end_index):
             continue
@@ -397,6 +400,15 @@ def process_data(
                 current_server_url,
                 is_backup,
             )
+
+            # Increment the hour counter
+            hours_processed += 1
+
+            # Check if 2 hours have been processed
+            if hours_processed >= 2:
+                print("Processed 2 hours of data. Sleeping for 1 hour...")
+                time.sleep(3600)  # Sleep for 1 hour (3600 seconds)
+                hours_processed = 0  # Reset the counter after sleeping
 
         start_timestamp = None  # Reset for the next pair
 
